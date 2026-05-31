@@ -3732,7 +3732,7 @@
         { icon: 'shield-checkmark-outline', label: 'Privacy Policy', action: () => navTo('privacy') },
         { icon: 'help-circle-outline', label: 'Support', action: () => navTo('support') },
       ];
-      $('#menu-main').innerHTML = `${items.map(i => `
+      $('#menu-main').innerHTML = items.map(i => `
     <div class="menu-item" onclick="(${i.action.toString()})()">
       <div class="menu-l">
         <div class="menu-icon"><ion-icon name="${i.icon}"></ion-icon></div>
