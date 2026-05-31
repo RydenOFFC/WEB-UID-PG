@@ -10,7 +10,7 @@
  *   const BACKEND_URL = 'https://nama-web-kamu.onrender.com';
  */
 
-const BACKEND_URL = 'https://web-uid-pg.onrender.com';
+const BACKEND_URL = 'https://web-uid.onrender.com';
 
 // ✅ Gunakan variabel ini di semua fetch calls:
 // Contoh: fetch(BACKEND_URL + '/api/auth', {...})
