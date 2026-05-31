@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard - FenixxUID</title>
+  <style>
+    body { margin:0; font-family:system-ui, sans-serif; background:#070707; color:#fff; }
+    main { max-width:1120px; margin:0 auto; padding:24px; }
+    h1 { font-size:2rem; margin-bottom:0.75rem; }
+    .panel { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:24px; }
+    .card { background:#111; border:1px solid #222; border-radius:16px; padding:18px; flex:1 1 220px; }
+    .card h2 { margin:0 0 10px; font-size:1rem; color:#ccc; }
+    .card p { font-size:2rem; margin:0; }
+    button { cursor:pointer; border:none; border-radius:12px; padding:12px 18px; background:#0e8ef8; color:#fff; font-weight:700; }
+    button[disabled] { opacity:.45; cursor:not-allowed; }
+    .form-row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:18px; }
+    .form-row input { background:#111; border:1px solid #333; color:#fff; padding:12px 14px; border-radius:12px; min-width:200px; }
+    .table-wrapper { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; margin-top:12px; }
+    th, td { padding:12px 14px; text-align:left; border-bottom:1px solid #222; font-size:.95rem; }
+    th { color:#aaa; font-weight:700; }
+    td { color:#eee; }
+    .status-AVAILABLE { color:#57d47b; }
+    .status-SOLD { color:#f4c150; }
+    .status-ARCHIVED { color:#888; }
+    .error { color:#ff5a5a; margin-top:12px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Admin Dashboard</h1>
+    <div class="form-row">
+      <input id="admin-email" type="text" placeholder="Admin email" autocomplete="username" />
+      <input id="admin-password" type="password" placeholder="Password" autocomplete="current-password" />
+      <button id="login-btn">Login</button>
+      <button id="logout-btn" style="display:none;background:#ff5a5a">Logout</button>
+    </div>
+    <div id="admin-status" class="error"></div>
+    <div class="panel">
+      <div class="card"><h2>Total users</h2><p id="total-users">—</p></div>
+      <div class="card"><h2>Total products</h2><p id="total-products">—</p></div>
+      <div class="card"><h2>Available</h2><p id="total-available">—</p></div>
+      <div class="card"><h2>Sold</h2><p id="total-sold">—</p></div>
+    </div>
+    <section>
+      <h2>FF ID Listings</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>FF ID</th>
+              <th>Price</th>
+              <th>Category</th>
+              <th>Status</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody id="listings-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script src="config.js"></script>
+  <script>
+    // Gunakan BACKEND_URL dari config.js (ubah di config.js saja)
+    const API = BACKEND_URL;
+    const loginBtn = document.getElementById('login-btn')
+    const logoutBtn = document.getElementById('logout-btn')
+    const statusEl = document.getElementById('admin-status')
+    const tokenKey = 'rareids_admin_token'
+    const state = { token: localStorage.getItem(tokenKey) || '' }
+
+    function authHeaders() {
+      return { 'Content-Type': 'application/json', ...(state.token ? { Authorization: 'Bearer ' + state.token } : {}) }
+    }
+
+    async function api(path, options = {}) {
+      const res = await fetch(API + path, {
+        headers: authHeaders(),
+        ...options
+      })
+      return res.json()
+    }
+
+    function showError(msg) {
+      statusEl.textContent = msg || ''
+    }
+
+    async function loadSummary() {
+      const res = await api('/admin/summary')
+      if (!res.success) throw new Error(res.error || 'Failed to load summary')
+      document.getElementById('total-users').textContent = res.data.users
+      document.getElementById('total-products').textContent = res.data.products
+      document.getElementById('total-available').textContent = res.data.available
+      document.getElementById('total-sold').textContent = res.data.sold
+    }
+
+    async function loadListings() {
+      const res = await api('/admin/listings')
+      if (!res.success) throw new Error(res.error || 'Failed to load listings')
+      const body = document.getElementById('listings-body')
+      body.innerHTML = res.data.map(item => 
+        `<tr>
+          <td>
+            ${item.id}
+          </td>
+          <td>
+            ${item.ff_id || '-'}
+          </td>
+          <td>
+            ${item.price != null ? item.price : '-'}
+          </td>
+          <td>
+            ${item.category || '-'}
+          </td>
+          <td class="status-${item.status || 'UNKNOWN'}">
+            ${item.status || '-'}
+          </td>
+          <td>
+            ${item.created_at ? new Date(item.created_at).toLocaleString() : '-'}
+          </td>
+        </tr>`
+      ).join('')
+    }
+
+    async function tryLoadAdmin() {
+      if (!state.token) return
+      try {
+        await Promise.all([loadSummary(), loadListings()])
+        logoutBtn.style.display = 'inline-flex'
+        loginBtn.style.display = 'none'
+        showError('')
+      } catch (err) {
+        state.token = ''
+        localStorage.removeItem(tokenKey)
+        logoutBtn.style.display = 'none'
+        loginBtn.style.display = 'inline-flex'
+        showError(err.message)
+      }
+    }
+
+    loginBtn.addEventListener('click', async () => {
+      const email = document.getElementById('admin-email').value.trim()
+      const password = document.getElementById('admin-password').value
+      if (!email || !password) {
+        showError('Isi email dan password admin terlebih dahulu')
+        return
+      }
+      try {
+        showError('Logging in...')
+        const res = await fetch(API + '/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        })
+        const data = await res.json()
+        if (!data.success) throw new Error(data.error || 'Login gagal')
+        state.token = data.token
+        localStorage.setItem(tokenKey, data.token)
+        await tryLoadAdmin()
+      } catch (err) {
+        showError(err.message)
+      }
+    })
+
+    logoutBtn.addEventListener('click', () => {
+      state.token = ''
+      localStorage.removeItem(tokenKey)
+      logoutBtn.style.display = 'none'
+      loginBtn.style.display = 'inline-flex'
+      showError('Logged out')
+      document.getElementById('listings-body').innerHTML = ''
+      document.getElementById('total-users').textContent = '-'
+      document.getElementById('total-products').textContent = '-'
+      document.getElementById('total-available').textContent = '-'
+      document.getElementById('total-sold').textContent = '-'
+    })
+
+    tryLoadAdmin()
+  </script>
+</body>
+</html>

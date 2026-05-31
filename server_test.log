@@ -1,0 +1,23 @@
+nohup: ignoring input
+
+> zephyrn-backend@1.0.0 start
+> node server.js
+
+◇ injected env (2) from .env // tip: ⌘ suppress logs { quiet: true }
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+ZephyrnUID running on port 4000
+[2026-05-29T12:17:36.750Z] GET /
+[2026-05-29T12:17:37.053Z] GET /config.js
+[2026-05-29T12:17:38.473Z] POST /cdn-cgi/rum
+[2026-05-29T12:17:38.583Z] GET /favicon.ico
+[2026-05-29T12:19:09.995Z] GET /admin-fixed.html
+[2026-05-29T12:19:10.224Z] GET /config.js
+[2026-05-29T12:19:11.144Z] GET /favicon.ico
+[2026-05-29T12:19:31.069Z] GET /
+[2026-05-29T12:19:31.391Z] GET /config.js
+[2026-05-29T12:19:31.823Z] POST /cdn-cgi/rum
+[2026-05-29T12:19:32.190Z] GET /favicon.ico
+[2026-05-29T12:19:46.601Z] POST /cdn-cgi/rum
+[2026-05-29T12:25:41.783Z] GET /admin-fixed.html
+[2026-05-29T12:25:41.978Z] GET /config.js
+[2026-05-29T12:25:43.437Z] GET /favicon.ico

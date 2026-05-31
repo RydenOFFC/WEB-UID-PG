@@ -1,0 +1,5 @@
+- [ ] Plan: add DELETE /listings/:id route to routes/admin.js
+- [ ] Verify current routes/admin.js contains the route and matches requested implementation
+- [ ] git add routes/admin.js
+- [ ] git commit -m "Add admin delete listing route"
+- [ ] git push

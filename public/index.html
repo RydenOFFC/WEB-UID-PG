@@ -1,0 +1,4002 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>FenixxUID</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&family=Bebas+Neue&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet">
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <style>
+    :root {
+      --bg: #000;
+      --surface: #111111;
+      --surface2: #121212;
+      --surface3: #1a1a1a;
+      --text: #fff;
+      --text2: rgba(255, 255, 255, 0.5);
+      --text3: rgba(255, 255, 255, 0.555);
+      --radius: 16px;
+      --radius-sm: 12px;
+      --header-h: 65px;
+      --nav-h: 64px;
+      --font: 'Ubuntu', -apple-system, sans-serif;
+      --id-font: 'Google Sans', sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-variant-numeric: tabular-nums;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100dvh;
+      -webkit-font-smoothing: antialiased;
+      letter-spacing: -0.005em;
+      overflow-x: hidden;    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: inherit;
+      transition: opacity 0.3s;
+    }
+
+    button:active {
+      opacity: 0.7;
+    }
+
+    input,
+    select,
+    textarea {
+      font-family: var(--font);
+      color: var(--text);
+      background: var(--surface3);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 12px 15px;
+      outline: none;
+      transition: background 0.3s;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      background: #222;
+    }
+
+    input::placeholder {
+      color: var(--text3);
+    }
+
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23fff' opacity='0.3'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 14px;
+      padding-right: 38px;
+    }
+
+    select option {
+      background: var(--surface2);
+      color: var(--text);
+      font-family: var(--font);
+    }
+
+    ::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+
+    ::selection {
+      background: #fff;
+      color: #000;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: flex;
+      flex-direction: column;
+      min-height: 100dvh;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding-top: env(safe-area-inset-top, 0px);
+      height: calc(var(--header-h) + env(safe-area-inset-top, 0px));
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      flex-shrink: 0;
+      border-bottom: 2px solid var(--surface3);
+    }
+
+    .header-l {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-l ion-icon {
+      font-size: 22px;
+    }
+    .header-l .btn-ghost {
+      font-size: 16px;
+      padding: 8px 14px;
+    }
+
+    .header-l span {
+      font-size: 1.2em;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .header-r {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .balance-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      height: 32px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      background: var(--surface2);
+    }
+
+    .balance-btn .bal-amt {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .balance-btn .bal-plus {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      background: #fff;
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .notif-btn {
+      position: relative;
+      padding: 6px;
+      border-radius: var(--radius-sm);
+      background: var(--surface2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .notif-btn ion-icon {
+      font-size: 22px;
+      color: var(--text2);
+    }
+
+    .notif-btn .dot {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #fff;
+      display: none;
+    }
+
+    .notif-btn .dot.show {
+      display: block;
+    }
+
+    .main {
+      flex: 1;
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 14px 18px 24px;
+    }
+
+    .main.has-nav {
+      padding-bottom: calc(var(--nav-h) + 24px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .nav {
+      position: fixed;
+      bottom: 0px;
+      left: 0;
+      right: 0;
+      z-index: 101;
+      height: 68px;
+      width: 100%;
+      background: #0a0a0a;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      padding: 0 8px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 12px;
+      border-radius: 16px;
+      transition: all 0.3s;
+      color: rgba(255,255,255,0.4);
+      cursor: pointer;
+      position: relative;
+      min-width: 56px;
+    }
+
+    .nav-item:hover {
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.7);
+    }
+
+    .nav-item:active {
+      transform: scale(0.9);
+    }
+
+    .nav-item.active {
+      color: #fff;
+    }
+
+    .nav-item ion-icon {
+      font-size: 22px;
+    }
+
+    .nav-item span {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+    }
+
+    .nav-item .badge {
+      position: absolute;
+      top: 4px;
+      right: 8px;
+      min-width: 16px;
+      height: 16px;
+      border-radius: 8px;
+      background: #fff;
+      color: #000;
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+    }
+
+    .nav-item.active .badge {
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px 18px;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      font-size: 14px;
+      transition: opacity 0.3s;
+    }
+
+    .btn:active {
+      opacity: 0.7;
+    }
+
+    .btn-primary {
+      background: #fff;
+      color: #000;
+      font-weight: 700;
+    }
+
+    .btn-danger {
+      background: var(--surface3);
+      color: #fff;
+      font-weight: 500;
+    }
+
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--text);
+    }
+
+    .btn-ghost {
+      color: var(--text2);
+    }
+
+    .btn-sm {
+      padding: 7px 13px;
+      font-size: 12px;
+      border-radius: 10px;
+    }
+
+    .btn-lg {
+      padding: 15px 24px;
+      font-size: 15px;
+      border-radius: var(--radius);
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+
+    .btn:disabled {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 18px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 13px;
+      border-radius: 10px;
+      font-size: 0.95em;
+      font-weight: 500;
+      background: transparent;
+      color: var(--text2);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .tag:active {
+      opacity: 0.7;
+    }
+
+    .tag.active {
+      background: var(--surface3);
+      color: var(--text);
+    }
+
+    .tags-scroll {
+      position: relative;
+      display: flex;
+      gap: 5px;
+      overflow-x: auto;
+      padding: 4px 28px 4px 0;
+      flex-wrap: nowrap;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .tags-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tags-scroll::after {
+      content: '';
+      position: sticky;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 32px;
+      flex-shrink: 0;
+      background: linear-gradient(to right, transparent, var(--bg));
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+    }
+
+    .search-box ion-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 15px;
+      color: var(--text3);
+      pointer-events: none;
+    }
+
+    .search-box input {
+      padding-left: 40px;
+      width: 100%;
+      height: 40px;
+    }
+
+    .filter-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      background: var(--surface3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .filter-btn:active {
+      opacity: 0.7;
+    }
+
+    .filter-btn ion-icon {
+      font-size: 16px;
+      color: var(--text2);
+    }
+
+    .filter-btn.active {
+      background: #fff;
+    }
+
+    .filter-btn.active ion-icon {
+      color: #000;
+    }
+
+    .filter-popup-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .filter-popup-overlay.show {
+      display: flex;
+    }
+    .filter-popup {
+      background: var(--surface);
+      border-radius: var(--radius) var(--radius) 0 0;
+      width: 100%;
+      max-width: 480px;
+      max-height: 80dvh;
+      overflow-y: auto;
+      padding: 20px;
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .filter-popup-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .filter-popup-header h3 {
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .filter-popup-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--surface3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .filter-popup-close ion-icon {
+      font-size: 18px;
+      color: var(--text2);
+    }
+    .filter-section {
+      margin-bottom: 20px;
+    }
+    .filter-section h4 {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+    }
+    .price-brackets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .price-bracket {
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      background: var(--surface3);
+      color: var(--text2);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
+    .price-bracket:active {
+      opacity: 0.7;
+    }
+    .price-bracket.active {
+      background: #fff;
+      color: #000;
+      font-weight: 700;
+    }
+    .filter-sort-item {
+      padding: 11px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text2);
+      cursor: pointer;
+      margin-bottom: 3px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .filter-sort-item:active {
+      opacity: 0.7;
+    }
+
+    .filter-sort-item.active {
+      background: var(--surface3);
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .filter-popup-footer {
+      display: flex;
+      gap: 8px;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--surface3);
+    }
+    .filter-popup-footer .btn {
+      flex: 1;
+    }
+    .maintenance-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .maintenance-overlay.show {
+      display: flex;
+    }
+    .maintenance-card {
+      text-align: center;
+      max-width: 320px;
+      padding: 40px 24px;
+    }
+    .maintenance-card ion-icon {
+      font-size: 48px;
+      color: var(--text2);
+      margin-bottom: 16px;
+    }
+    .maintenance-card h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .maintenance-card p {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+    .toast-container {
+      position: fixed;
+      bottom: calc(var(--nav-h) + 12px + env(safe-area-inset-bottom, 0px));
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 6px;
+      pointer-events: none;
+      width: calc(100% - 32px);
+      max-width: 400px;
+    }
+
+    .toast {
+      background: var(--surface2);
+      color: var(--text);
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      animation: toastIn 0.3s ease;
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 26px 22px;
+      width: 100%;
+      max-width: 380px;
+      animation: modalIn 0.3s ease;
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .modal p {
+      color: var(--text2);
+      font-size: 13px;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .form-group {
+      margin-bottom: 13px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 16px;
+    }
+
+    .tab {
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text3);
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .tab:active {
+      opacity: 0.7;
+    }
+
+    .tab.active {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .listing-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px 0;
+      border-bottom: 1px solid var(--surface3);
+      font-family: var(--font);
+    }
+
+    .listing-row .id {
+      font-family: var(--id-font);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .listing-row .price {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text2);
+    }
+
+    .listing-row .actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .icon-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: var(--text2);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .icon-btn:active {
+      background: var(--surface3);
+    }
+
+    .icon-btn.danger {
+      color: #fff;
+    }
+
+    .icon-btn-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: var(--text2);
+      background: var(--surface3);
+      transition: all 0.3s;
+      flex-shrink: 0;
+    }
+
+    .icon-btn-circle:active {
+      transform: scale(0.9);
+    }
+
+    .icon-btn-circle.added {
+      background: #fff;
+      color: #000;
+    }
+
+    .icon-btn-circle.remove {
+      background: var(--surface3);
+      color: #fff;
+    }
+
+    .badge-tag {
+      position: absolute;
+      top: 3px;
+      left: 0;
+      background: #fff;
+      color: #000;
+      font-size: 7px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 1px 5px;
+      border-radius: 3px;
+      z-index: 1;
+      letter-spacing: 0.04em;
+    }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      color: var(--text2);
+      text-align: center;
+    }
+
+    .empty-state ion-icon {
+      font-size: 32px;
+      opacity: 0.1;
+      margin-bottom: 10px;
+    }
+
+    .empty-state p {
+      font-size: 13px;
+      font-weight: 400;
+    }
+
+    .loader {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--surface3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--text2);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .check-row:active {
+      opacity: 0.7;
+    }
+
+    .check-row.checked {
+      background: var(--surface2);
+      color: var(--text);
+    }
+
+    .check-box {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      background: var(--surface3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .check-row.checked .check-box {
+      background: #fff;
+    }
+
+    .check-box ion-icon {
+      font-size: 12px;
+      color: #000;
+      display: none;
+    }
+
+    .check-row.checked .check-box ion-icon {
+      display: block;
+    }
+
+    .copy-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 8px;
+      align-items: center;
+      background: var(--surface);
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .copy-row .label {
+      color: var(--text3);
+      font-weight: 500;
+      font-size: 12px;
+    }
+
+    .copy-row .value {
+      font-weight: 500;
+      word-break: break-all;
+      font-family: var(--id-font);
+    }
+
+    .copy-row .copy-btn {
+      padding: 4px 9px;
+      border-radius: 6px;
+      background: var(--surface3);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text2);
+    }
+
+    .landing-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .landing-actions .btn {
+      width: 100%;
+      max-width: 300px;
+      height: 46px;
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: var(--radius);
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .menu-item:active {
+      opacity: 0.7;
+    }
+
+    .menu-item .menu-l {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .menu-item .menu-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--surface2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .menu-item .menu-label {
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    .menu-item ion-icon[name="chevron-forward"] {
+      color: var(--text3);
+      font-size: 14px;
+    }
+
+    .tx-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+    }
+
+    .tx-row .tx-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .tx-row .tx-type {
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .tx-row .tx-date {
+      font-size: 10px;
+      color: var(--text3);
+      font-weight: 400;
+    }
+
+    .tx-row .tx-amount {
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .tx-row .tx-amount.positive {
+      color: #fff;
+    }
+
+    .coupon-input-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .coupon-input-row input {
+      flex: 1;
+      text-align: center;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      height: 40px;
+    }
+
+    .coupon-input-row .btn {
+      height: 40px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 400px) {
+      .header-l span {
+        font-size: 1.5em;
+      }
+
+      .main {
+        padding: 14px 14px;
+      }
+
+      .modal {
+        padding: 22px 16px;
+      }
+    }
+
+    /* Inline style extraction classes */
+    .login-badge {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      justify-content: center;
+      padding: 0 14px;
+    }
+    .login-badge .bal-amt {
+      color: var(--text3);
+      font-size: 11px;
+    }
+    .login-badge .bal-plus {
+      margin-left: 6px;
+    }
+    .auth-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100dvh;
+      max-width: 400px;
+      padding-top: 0;
+    }
+    .auth-center .auth-wrap {
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 28px 24px;
+      border: 1px solid var(--surface3);
+      gap: 22px;
+    }
+    .auth-center .auth-form .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .auth-center .auth-form input,
+    .auth-center .auth-form select {
+      height: 46px;
+      border-radius: 12px;
+      border: 1.5px solid var(--surface3);
+      background: var(--bg);
+      padding: 0 14px;
+      font: inherit;
+      font-size: 14px;
+      color: #fff;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .auth-center .auth-form input:focus,
+    .auth-center .auth-form select:focus {
+      border-color: rgba(255,255,255,0.3);
+    }
+    .auth-center .auth-form label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text2);
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+    }
+    .auth-center .check-row {
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 14px 14px;
+      border-radius: 12px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .auth-center .check-row:hover {
+      border-color: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.04);
+    }
+    .auth-center .check-row.checked {
+      border-color: rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.06);
+    }
+    .auth-center .check-box {
+      width: 22px;
+      height: 22px;
+      border-radius: 7px;
+      border: 2px solid rgba(255,255,255,0.15);
+      background: transparent;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .auth-center .check-row.checked .check-box {
+      border-color: #fff;
+      background: #fff;
+    }
+    .auth-center .check-box ion-icon {
+      font-size: 14px;
+      color: #000;
+    }
+    .auth-center .check-row span {
+      line-height: 1.4;
+      color: rgba(255,255,255,0.6);
+    }
+    .auth-center .check-row.checked span {
+      color: rgba(255,255,255,0.9);
+    }
+    .auth-center .check-row .link-underline {
+      color: #fff;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      opacity: 0.8;
+    }
+    .auth-center .check-row .link-underline:hover {
+      opacity: 1;
+    }
+    .auth-center .tabs {
+      display: flex;
+      background: rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 4px;
+      gap: 0;
+      margin-bottom: 8px;
+    }
+    .auth-center .tab {
+      flex: 1;
+      padding: 10px 0;
+      margin: 0;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      border-radius: 11px;
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+    .auth-center .tab.active {
+      background: #fff;
+      color: #000;
+      font-weight: 700;
+    }
+    .auth-center .tab:active {
+      opacity: 0.8;
+    }
+    .auth-center .auth-logo-center {
+      margin-bottom: -6px;
+    }
+    .auth-center .auth-logo-center ion-icon {
+      font-size: 28px;
+    }
+    .auth-center .auth-logo-center h2 {
+      font-size: 20px;
+    }
+    .nav-rel {
+      position: relative;
+    }
+    .badge-none {
+      display: none;
+    }
+    .loader-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 0;
+    }
+    .currency-prompt {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .currency-prompt ion-icon {
+      font-size: 24px;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .currency-prompt h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .currency-prompt p {
+      font-size: 12px;
+      color: var(--text2);
+      margin-bottom: 14px;
+    }
+    .currency-prompt .prompt-row {
+      display: flex;
+      gap: 8px;
+    }
+    .currency-prompt select {
+      flex: 1;
+      height: 44px;
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .currency-prompt .btn-continue {
+      height: 44px;
+      padding: 0 20px;
+    }
+    .landing-toolbar {
+      padding-top: 4px;
+      padding-bottom: 10px;
+      margin-bottom: 6px;
+    }
+    .landing-toolbar-alt {
+      padding-top: 4px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      padding-bottom: 10px;
+      margin-bottom: 6px;
+    }
+    .search-filter-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .listing-row-rel {
+      position: relative;
+    }
+    .empty-state-btn {
+      margin-top: 14px;
+    }
+    .auth-wrap {
+      width: 100%;
+      max-width: 340px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .auth-logo-center {
+      text-align: center;
+    }
+    .auth-logo-center ion-icon {
+      font-size: 32px;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .auth-logo-center h2 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .auth-currency-select {
+      height: 44px;
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .turnstile-center {
+      display: flex;
+      justify-content: center;
+    }
+    .turnstile-unavail {
+      text-align: center;
+      padding: 12px 0;
+    }
+    .turnstile-unavail p {
+      font-size: 11px;
+      color: var(--text3);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .turnstile-bypass {
+      text-align: center;
+      padding: 8px 0;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text2);
+    }
+    .turnstile-bypass ion-icon {
+      font-size: 14px;
+      vertical-align: middle;
+    }
+    .home-toolbar {
+      padding-top: 8px;
+    }
+    .cart-link-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 12px;
+    }
+    .cart-link {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .cart-link ion-icon {
+      font-size: 12px;
+    }
+    .cart-unavail {
+      background: rgba(255,255,255,0.04);
+      margin: 0 -4px;
+      padding-left: 4px;
+      padding-right: 4px;
+    }
+    .cart-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .cart-na {
+      font-size: 9px;
+      font-weight: 600;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .cart-summary {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .cart-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 20px;
+    }
+    .cart-total-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .cart-total-amt {
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .cart-warn {
+      padding: 14px;
+      background: var(--surface3);
+      color: #fff;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .cart-agree {
+      margin-bottom: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 14px;
+      transition: border-color 0.2s;
+    }
+    .cart-agree:hover {
+      border-color: rgba(255,255,255,0.2);
+    }
+    .cart-agree .check-box {
+      width: 22px;
+      height: 22px;
+      border-radius: 7px;
+      border: 2px solid rgba(255,255,255,0.15);
+      background: transparent;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .cart-agree.checked .check-box {
+      border-color: #fff;
+      background: #fff;
+    }
+    .cart-agree .check-box ion-icon {
+      font-size: 14px;
+      color: #000;
+    }
+    .cart-empty {
+      padding-top: 60px;
+    }
+    .checkout-icon-circle {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--surface3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+    }
+    .checkout-icon-circle ion-icon {
+      font-size: 32px;
+      color: var(--text2);
+    }
+    .checkout-center {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .checkout-item {
+      margin-bottom: 12px;
+    }
+    .checkout-item-title {
+      font-size: 18px;
+      font-weight: 600;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+    .checkout-summary {
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+    .checkout-line {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .checkout-line span:last-child {
+      color: var(--text2);
+    }
+    .coupon-details {
+      margin-bottom: 16px;
+    }
+    .coupon-details summary {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text2);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .coupon-details summary::-webkit-details-marker {
+      display: none;
+    }
+    .coupon-details summary::before {
+      content: '+';
+      font-size: 14px;
+      font-weight: 700;
+      width: 16px;
+      text-align: center;
+    }
+    .coupon-details[open] summary::before {
+      content: '−';
+    }
+    .coupon-details .coupon-input-row {
+      margin-top: 10px;
+    }
+    .checkout-coupon-row {
+      margin-bottom: 16px;
+    }
+    .checkout-coupon-input {
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+    }
+    .checkout-totals {
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .checkout-totals-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--text2);
+      margin-bottom: 8px;
+    }
+    .checkout-total-divider {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      margin-top: 8px;
+    }
+    .checkout-total-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text3);
+      text-transform: uppercase;
+    }
+    .checkout-total-val {
+      font-size: 26px;
+      font-weight: 700;
+    }
+    .checkout-cancel {
+      margin-top: 8px;
+    }
+    .wallet-card {
+      background: var(--surface);
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .wallet-bg-icon {
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      opacity: 0.04;
+    }
+    .wallet-bg-icon ion-icon {
+      font-size: 120px;
+    }
+    .wallet-card-inner {
+      position: relative;
+      z-index: 1;
+    }
+    .wallet-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .wallet-balance {
+      font-size: 36px;
+      font-weight: 700;
+      margin-top: 4px;
+      letter-spacing: -0.03em;
+    }
+    .wallet-section {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .wallet-section-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .wallet-section-header ion-icon {
+      font-size: 18px;
+      color: #fff;
+    }
+    .wallet-section-header span {
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .wallet-desc {
+      font-size: 12px;
+      color: var(--text2);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    .wallet-coupon-row {
+      margin-bottom: 0;
+    }
+    .wallet-coupon-input {
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-align: left;
+    }
+    .wallet-tx {
+      margin-top: 8px;
+    }
+    .wallet-tx-btn {
+      margin-bottom: 12px;
+    }
+    .wallet-tx-loader {
+      text-align: center;
+      padding: 20px;
+    }
+    .wallet-tx-empty {
+      text-align: center;
+      padding: 30px;
+      color: var(--text2);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .menu-currency-card {
+      background: #0a0a0a;
+      border-radius: 20px;
+      padding: 16px 18px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .menu-currency-l {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .menu-currency-l ion-icon {
+      font-size: 22px;
+      color: rgba(255,255,255,0.5);
+    }
+    .menu-currency-l span {
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .menu-currency-r {
+      position: relative;
+    }
+    .menu-currency-select {
+      appearance: none;
+      background: rgba(255,255,255,0.08);
+      border: none;
+      border-radius: 12px;
+      padding: 8px 32px 8px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+    }
+    .menu-currency-select option {
+      background: #1a1a1a;
+    }
+    .menu-currency-chevron {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: rgba(255,255,255,0.4);
+      pointer-events: none;
+    }
+    .menu-logout {
+      color: #fff;
+      margin-top: 16px;
+    }
+    .menu-logout .menu-icon {
+      background: var(--surface3);
+      color: #fff;
+    }
+    .profile-card {
+      margin-bottom: 16px;
+    }
+    .profile-card-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .profile-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .profile-input-disabled {
+      opacity: 0.5;
+    }
+    .profile-currency-card {
+      background: var(--surface3);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .profile-currency-l {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .profile-currency-l ion-icon {
+      font-size: 22px;
+      color: rgba(255,255,255,0.5);
+    }
+    .profile-currency-l span {
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .profile-currency-r {
+      position: relative;
+    }
+    .profile-currency-select {
+      appearance: none;
+      background: rgba(255,255,255,0.08);
+      border: none;
+      border-radius: 12px;
+      padding: 8px 32px 8px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+    }
+    .profile-currency-select option {
+      background: #1a1a1a;
+    }
+    .profile-currency-chevron {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: rgba(255,255,255,0.4);
+      pointer-events: none;
+    }
+    .profile-delete {
+      margin-top: 8px;
+    }
+    .delete-title {
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .delete-input {
+      width: 100%;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+    .tx-center-loader {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 0;
+    }
+    .tx-empty {
+      padding-top: 60px;
+    }
+    .tx-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 10px;
+    }
+    .tx-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    .tx-card-type {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+    .tx-card-date {
+      font-size: 10px;
+      color: var(--text3);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+    .tx-card-amt {
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .tx-card-amt-pos {
+      color: var(--text2);
+    }
+    .tx-card-amt-neg {
+      color: var(--text);
+    }
+    .tx-card-footer {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--text3);
+      font-weight: 700;
+    }
+    .purchase-card {
+      background: #0a0a0a;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 12px;
+    }
+    .purchase-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 4px;
+    }
+    .purchase-id {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.01em;
+    }
+    .purchase-date {
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+      font-weight: 500;
+      margin-top: 4px;
+    }
+    .purchase-price {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .purchase-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      margin: 14px 0;
+    }
+    .purchase-cred-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .purchase-cred-header ion-icon {
+      font-size: 14px;
+      color: rgba(255,255,255,0.3);
+    }
+    .purchase-cred-header span {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.3);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .purchase-cred-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .purchase-cred-l {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+    .purchase-cred-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.3);
+      flex-shrink: 0;
+    }
+    .purchase-cred-value {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.8);
+      word-break: break-all;
+      font-family: 'Inter', monospace;
+    }
+    .purchase-cred-value-multiline {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.8);
+      word-break: break-all;
+      font-family: 'Inter', monospace;
+      line-height: 1.5;
+    }
+    .purchase-copy-btn {
+      flex-shrink: 0;
+      margin-left: 10px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.08);
+      border: none;
+      color: rgba(255,255,255,0.6);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .purchase-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .purchase-tag {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.5);
+    }
+    .notif-empty {
+      padding-top: 60px;
+    }
+    .notif-card {
+      margin-bottom: 8px;
+      padding: 14px 16px;
+    }
+    .notif-card-inner {
+      display: flex;
+      gap: 10px;
+    }
+    .notif-icon {
+      flex-shrink: 0;
+      margin-top: 1px;
+      font-size: 20px;
+    }
+    .notif-icon-warning {
+      color: #fff;
+    }
+    .notif-icon-success {
+      color: var(--text2);
+    }
+    .notif-icon-purchase {
+      color: var(--text2);
+    }
+    .notif-icon-info {
+      color: #fff;
+    }
+    .notif-title {
+      font-weight: 600;
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+    .notif-msg {
+      font-size: 12px;
+      margin-bottom: 0;
+    }
+    .notif-date {
+      font-size: 10px;
+      color: var(--text3);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+    .support-header {
+      text-align: center;
+      padding: 32px 0 24px;
+    }
+    .support-header h2 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+    .support-header p {
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .support-card {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+    .support-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--surface3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .support-icon-box ion-icon {
+      font-size: 22px;
+      color: #fff;
+    }
+    .support-info {
+      flex: 1;
+    }
+    .support-info div:first-child {
+      font-weight: 600;
+      font-size: 16px;
+    }
+    .support-info div:last-child {
+      font-size: 11px;
+      color: var(--text3);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .support-arrow {
+      font-size: 16px;
+      color: var(--text3);
+    }
+    .tos-header {
+      text-align: center;
+      padding: 20px 0;
+    }
+    .tos-header ion-icon {
+      font-size: 36px;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .tos-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .tos-header p {
+      font-size: 10px;
+      color: var(--text3);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .tos-scroll {
+      max-height: 55vh;
+      overflow-y: auto;
+      padding: 0 4px;
+    }
+    .tos-item {
+      margin-bottom: 24px;
+    }
+    .tos-item-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .tos-item-num {
+      font-size: 10px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.25);
+    }
+    .tos-item-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .tos-item-text {
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .tos-ack {
+      background: var(--surface2);
+      border-radius: var(--radius);
+      padding: 14px;
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .tos-ack ion-icon {
+      font-size: 18px;
+      color: #fff;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .tos-ack-title {
+      font-size: 10px;
+      font-weight: 600;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 2px;
+    }
+    .tos-ack-text {
+      font-size: 11px;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+    .privacy-scroll {
+      max-height: 70vh;
+      overflow-y: auto;
+      padding: 8px 0;
+      line-height: 1.7;
+    }
+    .toast-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .cart-header-icon {
+      font-size: 20px;
+    }
+    .wallet-header-icon {
+      font-size: 20px;
+    }
+    .menu-header-icon {
+      font-size: 20px;
+    }
+    .profile-header-icon {
+      font-size: 20px;
+    }
+    .tx-header-icon {
+      font-size: 20px;
+    }
+    .purchases-header-icon {
+      font-size: 20px;
+    }
+    .notif-header-icon {
+      font-size: 20px;
+    }
+    .support-header-icon {
+      font-size: 20px;
+    }
+    .tos-header-icon {
+      font-size: 20px;
+    }
+    .privacy-header-icon {
+      font-size: 20px;
+    }
+    .header-title {
+      font-size: 17px;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-6px); }
+      40% { transform: translateX(6px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+    .cart-agree {
+      position: relative;
+    }
+    .cart-agree.shake {
+      animation: shake 0.4s ease;
+    }
+    #cart-checkout-btn {
+      position: relative;
+    }
+    #cart-checkout-btn::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 10px solid #fff;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    #cart-checkout-btn.point::before {
+      opacity: 1;
+    }
+    #cart-checkout-btn.point {
+      animation: shake 0.4s ease;
+    }
+    .modal-purchase-card {
+      background: var(--surface2);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .modal-purchase-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .modal-purchase-id {
+      font-family: var(--id-font);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .modal-purchase-price {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text2);
+    }
+    .modal-purchase-divider {
+      height: 1px;
+      background: var(--surface3);
+      margin-bottom: 12px;
+    }
+    .modal-purchase-field {
+      margin-bottom: 10px;
+    }
+    .modal-purchase-field:last-child {
+      margin-bottom: 0;
+    }
+    .modal-purchase-label {
+      display: block;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+    .modal-purchase-value-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: var(--surface3);
+      padding: 8px 10px;
+      border-radius: 8px;
+    }
+    .modal-purchase-value {
+      font-family: var(--id-font);
+      font-size: 13px;
+      font-weight: 500;
+      word-break: break-all;
+      flex: 1;
+    }
+    .modal-copy-btn {
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.1);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text2);
+      flex-shrink: 0;
+    }
+    .modal-copy-btn:active {
+      background: rgba(255,255,255,0.2);
+    }
+    .link-underline {
+      text-decoration: underline;
+    }
+    .auth-footer-text {
+      text-align: center;
+      font-size: 10px;
+      color: rgba(255,255,255,0.25);
+      font-weight: 600;
+    }
+    .delete-confirm-text {
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+    .privacy-h3 {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    .privacy-p {
+      margin-bottom: 20px;
+    }
+    .social-popup-overlay {
+      position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,.7);
+      display: none; align-items: flex-end; justify-content: center; padding: 20px;
+    }
+    .social-popup-overlay.show { display: flex; }
+    .social-popup-overlay.show\:flex { display: flex; }
+    .social-popup {
+      background: #111; border-radius: 24px; padding: 28px 24px 24px;
+      width: 100%; max-width: 360px; text-align: center; position: relative;
+      animation: slideUp .35s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .social-popup .close-btn {
+      position: absolute; top: 12px; right: 12px;
+      width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.08);
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      font-size: 22px; color: rgba(255,255,255,.5); border: none;
+    }
+    .social-popup .icons-row {
+      display: flex; justify-content: center; gap: -8px; margin-bottom: 16px;
+    }
+    .social-popup .icons-row .icon-box {
+      width: 56px; height: 56px; border-radius: 16px; display: flex;
+      align-items: center; justify-content: center; font-size: 28px;
+    }
+    .social-popup .icons-row .icon-box.tg { background: rgba(34,158,217,.2); border: 1px solid rgba(34,158,217,.3); transform: rotate(-6deg); color: #229ED9; }
+    .social-popup .icons-row .icon-box.wa { background: rgba(37,211,102,.2); border: 1px solid rgba(37,211,102,.3); transform: rotate(6deg); margin-left: -8px; z-index: 1; color: #25D366; }
+    .social-popup h3 { font-size: 20px; font-weight: 800; margin-bottom: 6px; text-transform: uppercase; }
+    .social-popup p { font-size: 12px; color: rgba(255,255,255,.5); font-weight: 600; margin-bottom: 20px; }
+    .social-popup .soc-btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 16px; border-radius: 16px; font-weight: 800; font-size: 15px;
+      text-transform: uppercase; border: none; cursor: pointer; margin-bottom: 10px;
+      transition: opacity .2s; color: #fff;
+    }
+    .social-popup .soc-btn:active { opacity: .7; }
+    .social-popup .soc-btn ion-icon { font-size: 20px; }
+    .social-popup .soc-btn.tg { background: #229ED9; }
+    .social-popup .soc-btn.wa { background: #25D366; }
+  </style>
+</head>
+
+<body>
+
+  <div class="toast-container" id="toasts"></div>
+
+  <div class="section active" id="sec-landing">
+    <header class="header">
+      <div class="header-l"><ion-icon name="shield-checkmark"></ion-icon><span>FenixxUID</span></div>
+      <div class="header-r">FenixxUID
+        <div class="balance-btn login-btn" onclick="showSection('auth')">
+          <span class="bal-amt">Login</span>
+          <div class="bal-plus">+</div>
+        </div>
+        <div class="notif-btn" onclick="showSection('auth')"><ion-icon name="notifications-outline"></ion-icon></div>
+      </div>
+    </header>
+    <div class="main has-nav" id="landing-main"></div>
+    <nav class="nav">
+      <div class="nav-item active" onclick="showSection('auth')"><ion-icon name="home"></ion-icon><span>Browse</span></div>
+      <div class="nav-item nav-rel" onclick="showSection('auth')"><ion-icon name="cart"></ion-icon><span>Cart</span></div>
+      <div class="nav-item" onclick="showSection('auth')"><ion-icon name="wallet"></ion-icon><span>Wallet</span></div>
+      <div class="nav-item" onclick="showSection('auth')"><ion-icon name="menu"></ion-icon><span>Menu</span></div>
+    </nav>
+  </div>
+
+  <div class="section" id="sec-auth">
+    <div class="main auth-center" id="auth-main"></div>
+  </div>
+
+  <div class="section" id="sec-home">
+    <header class="header">
+      <div class="header-l"><ion-icon name="shield-checkmark"></ion-icon><span>FenixxUID</span></div>
+      <div class="header-r">
+        <div class="balance-btn" onclick="navTo('wallet')">
+          <span class="bal-amt" id="hdr-bal">0.00</span>
+          <div class="bal-plus">+</div>
+        </div>
+        <div class="notif-btn" onclick="navTo('notifications')">
+          <ion-icon name="notifications-outline"></ion-icon>
+          <div class="dot" id="notif-dot"></div>
+        </div>
+      </div>
+    </header>
+    <div class="main has-nav" id="home-main"></div>
+    <nav class="nav">
+      <div class="nav-item active" onclick="navTo('home')"><ion-icon name="home"></ion-icon><span>Home</span></div>
+      <div class="nav-item nav-rel" onclick="navTo('cart')"><ion-icon
+          name="cart"></ion-icon><span>Cart</span>
+        <div class="badge badge-none" id="cart-badge">0</div>
+      </div>
+      <div class="nav-item" onclick="navTo('wallet')"><ion-icon name="wallet"></ion-icon><span>Wallet</span></div>
+      <div class="nav-item" onclick="navTo('menu')"><ion-icon name="menu"></ion-icon><span>Menu</span></div>
+    </nav>
+  </div>
+
+  <div class="section" id="sec-cart">
+    <header class="header">
+      <div class="header-l"><ion-icon name="cart" class="cart-header-icon"></ion-icon><span class="header-title">Cart</span></div>
+    </header>
+    <div class="main has-nav" id="cart-main"></div>
+    <nav class="nav">
+      <div class="nav-item" onclick="navTo('home')"><ion-icon name="home"></ion-icon><span>Home</span></div>
+      <div class="nav-item active nav-rel" onclick="navTo('cart')"><ion-icon
+          name="cart"></ion-icon><span>Cart</span>
+        <div class="badge badge-none" id="cart-badge2">0</div>
+      </div>
+      <div class="nav-item" onclick="navTo('wallet')"><ion-icon name="wallet"></ion-icon><span>Wallet</span></div>
+      <div class="nav-item" onclick="navTo('menu')"><ion-icon name="menu"></ion-icon><span>Menu</span></div>
+    </nav>
+  </div>
+  <div class="section" id="sec-wallet">
+    <header class="header">
+      <div class="header-l"><ion-icon name="wallet" class="wallet-header-icon"></ion-icon><span class="header-title">Wallet</span></div>
+    </header>
+    <div class="main has-nav" id="wallet-main"></div>
+    <nav class="nav">
+      <div class="nav-item" onclick="navTo('home')"><ion-icon name="home"></ion-icon><span>Home</span></div>
+      <div class="nav-item nav-rel" onclick="navTo('cart')"><ion-icon
+          name="cart"></ion-icon><span>Cart</span>
+        <div class="badge badge-none" id="cart-badge3">0</div>
+      </div>
+      <div class="nav-item active" onclick="navTo('wallet')"><ion-icon name="wallet"></ion-icon><span>Wallet</span>
+      </div>
+      <div class="nav-item" onclick="navTo('menu')"><ion-icon name="menu"></ion-icon><span>Menu</span></div>
+    </nav>
+  </div>
+  <div class="section" id="sec-menu">
+    <header class="header">
+      <div class="header-l"><ion-icon name="menu" class="menu-header-icon"></ion-icon><span class="header-title">Menu</span></div>
+    </header>
+    <div class="main has-nav" id="menu-main"></div>
+    <nav class="nav">
+      <div class="nav-item" onclick="navTo('home')"><ion-icon name="home"></ion-icon><span>Home</span></div>
+      <div class="nav-item nav-rel" onclick="navTo('cart')"><ion-icon
+          name="cart"></ion-icon><span>Cart</span>
+        <div class="badge badge-none" id="cart-badge4">0</div>
+      </div>
+      <div class="nav-item" onclick="navTo('wallet')"><ion-icon name="wallet"></ion-icon><span>Wallet</span></div>
+      <div class="nav-item active" onclick="navTo('menu')"><ion-icon name="menu"></ion-icon><span>Menu</span></div>
+    </nav>
+  </div>
+
+  <div class="section" id="sec-profile">
+    <header class="header">
+      <div class="header-l"><button class="btn btn-ghost btn-sm" onclick="navTo('menu')"><ion-icon name="arrow-back"
+            class="profile-header-icon"></ion-icon></button><span class="header-title">Profile</span></div>
+    </header>
+    <div class="main" id="profile-main"></div>
+  </div>
+  <div class="section" id="sec-transactions">
+    <header class="header">
+      <div class="header-l"><button class="btn btn-ghost btn-sm" onclick="navTo('menu')"><ion-icon name="arrow-back"
+            class="tx-header-icon"></ion-icon></button><span class="header-title">Transactions</span></div>
+    </header>
+    <div class="main" id="tx-main"></div>
+  </div>
+  <div class="section" id="sec-purchases">
+    <header class="header">
+      <div class="header-l"><button class="btn btn-ghost btn-sm" onclick="navTo('menu')"><ion-icon name="arrow-back"
+            class="purchases-header-icon"></ion-icon></button><span class="header-title">Purchases</span></div>
+    </header>
+    <div class="main" id="purchases-main"></div>
+  </div>
+  <div class="section" id="sec-notifications">
+    <header class="header">
+      <div class="header-l"><button class="btn btn-ghost btn-sm" onclick="navTo('home')"><ion-icon name="arrow-back"
+            class="notif-header-icon"></ion-icon></button><span class="header-title">Notifications</span></div>
+    </header>
+    <div class="main" id="notif-main"></div>
+  </div>
+  <div class="section" id="sec-support">
+    <header class="header">
+      <div class="header-l"><button class="btn btn-ghost btn-sm" onclick="navTo('menu')"><ion-icon name="arrow-back"
+            class="support-header-icon"></ion-icon></button><span class="header-title">Support</span></div>
+    </header>
+    <div class="main" id="support-main"></div>
+  </div>
+  <div class="section" id="sec-tos">
+    <header class="header">
+      <div class="header-l"><button class="btn btn-ghost btn-sm" onclick="navTo('menu')"><ion-icon name="arrow-back"
+            class="tos-header-icon"></ion-icon></button><span class="header-title">Legal</span></div>
+    </header>
+    <div class="main" id="tos-main"></div>
+  </div>
+  <div class="section" id="sec-privacy">
+    <header class="header">
+      <div class="header-l"><button class="btn btn-ghost btn-sm" onclick="navTo('menu')"><ion-icon name="arrow-back"
+            class="privacy-header-icon"></ion-icon></button><span class="header-title">Privacy</span></div>
+    </header>
+    <div class="main" id="privacy-main"></div>
+  </div>
+
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+    <div class="modal" id="modal-content" onclick="event.stopPropagation()"></div>
+  </div>
+
+  <div class="filter-popup-overlay" id="filter-popup-overlay" onclick="closeFilterPopup()">
+    <div class="filter-popup" id="filter-popup" onclick="event.stopPropagation()"></div>
+  </div>
+
+  <div class="social-popup-overlay" id="social-popup-overlay" onclick="closeSocialPopup()">
+    <div class="social-popup" id="social-popup" onclick="event.stopPropagation()">
+      <button class="close-btn" id="soc-close-btn" onclick="closeSocialPopup()">&times;</button>
+      <div class="icons-row">
+        <div class="icon-box tg"><ion-icon name="paper-plane"></ion-icon></div>
+        <div class="icon-box wa"><ion-icon name="logo-whatsapp"></ion-icon></div>
+      </div>
+      <h3>Join Our Community</h3>
+      <p>Get instant updates on new IDs and restocks. Don't miss out!</p>
+      <button class="soc-btn tg" onclick="window.open('https://t.me/RareUIDs','_blank')"><ion-icon name="paper-plane"></ion-icon> Join Telegram</button>
+      <button class="soc-btn wa" onclick="window.open('https://whatsapp.com/channel/0029VbCP9djChq6HkBuQc02b','_blank')"><ion-icon name="logo-whatsapp"></ion-icon> Join WhatsApp</button>
+    </div>
+  </div>
+
+  <div class="maintenance-overlay" id="maintenance-overlay">
+    <div class="maintenance-card">
+      <ion-icon name="construct-outline"></ion-icon>
+      <h2>Under Maintenance</h2>
+      <p id="maintenance-msg">We'll be back shortly</p>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script>
+    // Gunakan BACKEND_URL dari config.js
+    const API = BACKEND_URL + '/api';
+
+    var $ = function (s) { return document.querySelector(s); };
+    var $$ = function (s) { return document.querySelectorAll(s); };
+
+    const currencyList = ['USD', 'EUR', 'GBP', 'INR', 'JPY', 'AUD', 'CAD', 'CNY', 'KRW', 'LKR', 'RUB', 'BRL', 'MXN', 'AED', 'SAR', 'SGD', 'HKD', 'NZD', 'CHF', 'SEK', 'NOK', 'DKK', 'PLN', 'THB', 'IDR', 'MYR', 'PHP', 'VND', 'PKR', 'BDT', 'NGN', 'EGP', 'TRY', 'ARS', 'ZAR', 'ILS', 'UAH', 'CZK', 'HUF', 'RON'];
+    const currencySymbols = {
+      USD: '$', EUR: '€', GBP: '£', INR: '₹', JPY: '¥',
+      AUD: 'A$', CAD: 'C$', CNY: '¥', KRW: '₩', RUB: '₽',
+      BRL: 'R$', MXN: 'MX$', AED: 'د.إ', SAR: '﷼', SGD: 'S$',
+      HKD: 'HK$', NZD: 'NZ$', CHF: 'Fr.', SEK: 'kr', NOK: 'kr',
+      DKK: 'kr', PLN: 'zł', THB: '฿', IDR: 'Rp', MYR: 'RM',
+      PHP: '₱', VND: '₫', PKR: '₨', BDT: '৳', NGN: '₦',
+      EGP: '£', TRY: '₺', ARS: '$', ZAR: 'R', ILS: '₪',
+      UAH: '₴', CZK: 'Kč', HUF: 'Ft', RON: 'lei', LKR: 'Rs',
+    };
+
+    let state = {
+      token: localStorage.getItem('rareids_token') || null,
+      profile: null,
+      wallet: null,
+      counts: { cart_count: 0, notification_count: 0 },
+      notifications: [],
+      listings: [],
+      cart: null,
+      activeSection: 'landing',
+      priceRange: [0, 0],
+      priceAbs: { min: 0, max: 0 },
+      priceInit: false,
+      currency: localStorage.getItem('rareids_currency') || 'USD',
+      rate: Number(localStorage.getItem('rareids_rate')) || 1,
+      symbol: currencySymbols[localStorage.getItem('rareids_currency') || 'USD'] || '$',
+      landingCurrency: localStorage.getItem('rareids_landing_currency') || null
+    };
+
+    function escAttr(str) {
+      return (str || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function disp(price) {
+      const dec = state.currency === 'IDR' ? 0 : 2;
+      return (state.symbol || '$') + (Number(price) || 0).toFixed(dec);
+    }
+
+    function toast(msg, type) {
+      type = type || '';
+      const el = document.createElement('div');
+      el.className = 'toast ' + type;
+      const icon = type === 'success' ? 'checkmark-circle' : type === 'error' ? 'alert-circle' : 'information-circle';
+      el.innerHTML = '<ion-icon name="' + icon + '" class="toast-icon"></ion-icon><span>' + msg + '</span>';
+      $('#toasts').appendChild(el);
+      setTimeout(() => { el.style.opacity = '0'; el.style.transition = 'opacity 0.3s'; setTimeout(() => el.remove(), 300); }, 3000);
+    }
+
+    function requireTermsConsent(cb) {
+      if (document.getElementById('terms-consent-overlay')) return;
+      window._termsCb = cb;
+      var ov = document.createElement('div');
+      ov.id = 'terms-consent-overlay';
+      ov.style.cssText = 'position:fixed;inset:0;z-index:10000;background:#000;display:flex;align-items:center;justify-content:center;padding:24px';
+      ov.innerHTML = '<div style="text-align:center;max-width:380px;width:100%">' +
+        '<ion-icon name="shield-checkmark" style="font-size:44px;color:rgba(255,255,255,.2);margin-bottom:16px"></ion-icon>' +
+        '<h3 style="font-size:22px;font-weight:800;color:#fff;margin-bottom:6px">Before You Continue</h3>' +
+        '<p style="font-size:13px;color:rgba(255,255,255,.4);margin-bottom:24px;line-height:1.5">Please review and accept our legal policies to access the platform.</p>' +
+        '<div style="display:flex;gap:8px;justify-content:center;margin-bottom:20px">' +
+          '<button style="padding:10px 18px;background:rgba(255,255,255,.06);color:#fff;border-radius:10px;border:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer" onclick="document.getElementById(\'terms-consent-overlay\').remove();showSection(\'tos\')">Terms of Service</button>' +
+          '<button style="padding:10px 18px;background:rgba(255,255,255,.06);color:#fff;border-radius:10px;border:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer" onclick="document.getElementById(\'terms-consent-overlay\').remove();showSection(\'privacy\')">Privacy Policy</button>' +
+        '</div>' +
+        '<div id="terms-check-row" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:12px;margin-bottom:20px;cursor:pointer" onclick="this.classList.toggle(\'active\');var b=document.getElementById(\'terms-continue-btn\');b.disabled=!this.classList.contains(\'active\');b.style.opacity=this.classList.contains(\'active\')?\'1\':\'.3\'">' +
+          '<div style="width:22px;height:22px;border-radius:6px;border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0" id="terms-check-box"><ion-icon name="checkmark" style="font-size:14px;color:#000;display:none"></ion-icon></div>' +
+          '<span style="font-size:13px;color:rgba(255,255,255,.5);font-weight:600">I have read and accept the Terms &amp; Privacy Policy</span>' +
+        '</div>' +
+        '<button id="terms-continue-btn" style="width:100%;padding:14px;border-radius:12px;background:#fff;color:#000;border:none;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;opacity:.3" disabled onclick="localStorage.setItem(\'rareids_terms_accepted\',\'1\');document.getElementById(\'terms-consent-overlay\').remove();window._termsCb();window._termsCb=null">Continue to RareIDs</button>' +
+      '</div>';
+      document.body.appendChild(ov);
+      var style = document.createElement('style');
+      style.textContent = '#terms-check-row.active #terms-check-box{background:#fff;border-color:#fff}#terms-check-row.active #terms-check-box ion-icon{display:block}';
+      document.head.appendChild(style);
+    }
+
+    function showSection(name) {
+      if (name === 'landing' && !state.token && !localStorage.getItem('rareids_terms_accepted')) {
+        requireTermsConsent(function () { showSection('landing'); });
+        return;
+      }
+      $$('.section').forEach(s => s.classList.remove('active'));
+      const sec = $('#sec-' + name);
+      if (sec) sec.classList.add('active');
+      state.activeSection = name;
+      renderSection(name);
+    }
+
+    function navTo(name) {
+      showSection(name);
+    }
+
+    function renderSection(name) {
+      switch (name) {
+        case 'landing': renderLanding(); break;
+        case 'auth': renderAuth(); break;
+        case 'home': renderHome(); break;
+        case 'cart': renderCart(); break;
+        case 'wallet': renderWallet(); break;
+        case 'menu': renderMenu(); break;
+        case 'profile': renderProfile(); break;
+        case 'transactions': renderTransactions(); break;
+        case 'purchases': renderPurchases(); break;
+        case 'notifications': renderNotifications(); break;
+        case 'support': renderSupport(); break;
+        case 'tos': renderTOS(); break;
+        case 'privacy': renderPrivacy(); break;
+      }
+    }
+
+    async function apiCall(method, path, body) {
+      const headers = { 'Content-Type': 'application/json' };
+      if (state.token) headers['Authorization'] = 'Bearer ' + state.token;
+      const opts = { method, headers };
+      if (body) opts.body = JSON.stringify(body);
+      const res = await fetch(API + path, opts);
+      if (res.status === 401 && state.token && !path.includes('/auth')) {
+        logout();
+        return null;
+      }
+      const data = await res.json();
+      if (data && data.data && data.data.server && data.data.server.status !== 'open') {
+        showMaintenance(data.data.server.message || 'We\'ll be back shortly');
+        return null;
+      }
+      return data;
+    }
+
+    function showMaintenance(msg) {
+      document.getElementById('maintenance-msg').textContent = msg;
+      document.getElementById('maintenance-overlay').classList.add('show');
+    }
+
+    function hideMaintenance() {
+      document.getElementById('maintenance-overlay').classList.remove('show');
+    }
+
+    async function login(token) {
+      state.token = token;
+      localStorage.setItem('rareids_token', token);
+      await bootstrap();
+      showSection('home');
+    }
+
+    async function logout() {
+      try { await apiCall('POST', '/auth', { action: 'logout' }); } catch (e) { }
+      state.token = null;
+      state.profile = null;
+      state.wallet = null;
+      state.counts = { cart_count: 0, notification_count: 0 };
+      state.notifications = [];
+      state.cart = null;
+      localStorage.removeItem('rareids_token');
+      localStorage.removeItem('rareids_bootstrap_cache');
+      showSection('landing');
+    }
+
+    async function bootstrap() {
+      if (!state.token) return;
+      try {
+        const cached = localStorage.getItem('rareids_bootstrap_cache');
+        if (cached) {
+          const d = JSON.parse(cached);
+          state.profile = d.profile || null;
+          state.wallet = d.wallet || null;
+          state.counts = d.counts || { cart_count: 0, notification_count: 0 };
+          state.notifications = d.notifications || [];
+          state.currency = d.currency || null;
+          state.rate = d.rate || 1;
+          state.symbol = currencySymbols[state.currency] || (state.currency ? '$' : '');
+        }
+        const res = await apiCall('GET', '/bootstrap');
+        if (res && res.success) {
+          state.profile = res.data.profile || null;
+          state.wallet = res.data.wallet || null;
+          state.counts = res.data.counts || { cart_count: 0, notification_count: 0 };
+          state.notifications = res.data.notifications || [];
+          state.currency = res.data.currency || null;
+          state.rate = res.data.rate || 1;
+          state.symbol = currencySymbols[state.currency] || (state.currency ? '$' : '');
+          localStorage.setItem('rareids_currency', state.currency || '');
+          localStorage.setItem('rareids_rate', String(state.rate));
+          localStorage.setItem('rareids_bootstrap_cache', JSON.stringify(res.data));
+        }
+        if (!state.currency) {
+          await promptCurrency();
+        }
+      } catch (e) {
+        console.error(e);
+        localStorage.removeItem('rareids_bootstrap_cache');
+        state.currency = state.currency || 'USD';
+        state.rate = state.rate || 1;
+        state.symbol = currencySymbols[state.currency] || '$';
+      }
+      updateHeader();
+    }
+
+    async function promptCurrency() {
+      return new Promise(resolve => {
+        const ov = document.createElement('div');
+        ov.style.cssText = 'position:fixed;inset:0;z-index:9999;background:#000;display:flex;align-items:center;justify-content:center;padding:24px';
+        ov.innerHTML = `<div style="background:#111;border-radius:12px;padding:28px;max-width:360px;width:100%;text-align:center"><ion-icon name="cash-outline" style="font-size:36px;color:#fff;opacity:.5;margin-bottom:12px"></ion-icon><h3 style="font-size:18px;font-weight:700;margin-bottom:6px">Select Your Currency</h3><p style="font-size:13px;color:rgba(255,255,255,.5);margin-bottom:20px">Choose your preferred currency to continue</p><select id="prompt-curr" style="background:#1a1a1a;border:none;border-radius:10px;padding:12px 14px;width:100%;color:#fff;font:inherit;font-size:14px;margin-bottom:16px;outline:none">${currencyList.map(c => '<option value="' + c + '"' + (c === 'USD' ? ' selected' : '') + '>' + c + ' (' + (currencySymbols[c] || '') + ')</option>').join('')}</select><button id="prompt-curr-btn" class="btn btn-fill btn-block" style="padding:12px;border-radius:10px;background:#fff;color:#000;font-weight:600;border:none;cursor:pointer;font-size:14px">Continue</button></div>`;
+        document.body.appendChild(ov);
+        $('#prompt-curr-btn').onclick = () => {
+          const c = $('#prompt-curr').value;
+          state.currency = c;
+          state.symbol = currencySymbols[c] || '$';
+          localStorage.setItem('rareids_currency', c);
+          ov.remove();
+          resolve();
+        };
+      });
+    }
+
+    function updateHeader() {
+      const bal = $('#hdr-bal');
+      if (bal) bal.textContent = disp(state.wallet ? (state.wallet.balance_converted || 0) : 0);
+      const dot = $('#notif-dot');
+      if (dot) {
+        const ls = parseInt(localStorage.getItem('rareids_notif_seen') || '0');
+        const nc = state.counts.notification_count || 0;
+        if (nc > ls) dot.classList.add('show'); else dot.classList.remove('show');
+      }
+      const cc = state.counts.cart_count || 0;
+      ['cart-badge', 'cart-badge2', 'cart-badge3', 'cart-badge4'].forEach(id => {
+        const cb = $('#' + id);
+        if (cb) {
+          if (cc > 0) { cb.style.display = 'flex'; cb.textContent = cc; }
+          else { cb.className = 'badge badge-none'; }
+        }
+      });
+    }
+
+    window.changeCurrency = async function (c) {
+      state.currency = c;
+      state.symbol = currencySymbols[c] || '$';
+      localStorage.setItem('rareids_currency', c);
+      await fetchListings();
+      if (state.token) {
+        await apiCall('POST', '/auth', { action: 'update_profile', currency: c }).catch(() => {});
+        await bootstrap();
+        state.currency = c;
+        state.symbol = currencySymbols[c] || '$';
+        localStorage.setItem('rareids_currency', c);
+        const cache = localStorage.getItem('rareids_bootstrap_cache');
+        if (cache) {
+          const d = JSON.parse(cache);
+          d.currency = c;
+          localStorage.setItem('rareids_bootstrap_cache', JSON.stringify(d));
+        }
+        updateHeader();
+      }
+      renderSection(state.activeSection);
+    };
+
+    async function fetchListings() {
+      try {
+        let url = '/listings';
+        const curr = state.currency || 'USD';
+        url += '?currency=' + curr;
+        const res = await apiCall('GET', url);
+        if (res && res.success) {
+          state.listings = res.data.items;
+          if (res.data.currency) {
+            state.currency = res.data.currency;
+            state.symbol = currencySymbols[res.data.currency] || '$';
+            localStorage.setItem('rareids_currency', res.data.currency);
+            if (res.data.rate) {
+              state.rate = res.data.rate;
+              localStorage.setItem('rareids_rate', String(res.data.rate));
+            }
+          }
+          const avail = state.listings.filter(l => l.status === 'available' || !l.status);
+          if (avail.length > 0) {
+            const prices = avail.map(l => Number(l.price)).filter(p => !isNaN(p));
+            if (prices.length > 0) {
+              state.priceAbs = { min: Math.floor(Math.min(...prices)), max: Math.ceil(Math.max(...prices)) };
+              state.priceRange = [state.priceAbs.min, state.priceAbs.max];
+              state.priceInit = true;
+            }
+          }
+        }
+      } catch (e) { console.error(e); }
+    }
+
+    function closeModal() { $('#modal-overlay').classList.remove('show'); }
+    function openModal(html) { if (html !== undefined && html !== '') $('#modal-content').innerHTML = html; $('#modal-overlay').classList.add('show'); }
+
+    window.checkSocialPopup = function() {
+      const lastSeen = localStorage.getItem('rareids_social_popup_last_seen');
+      const threeDays = 3 * 24 * 60 * 60 * 1000;
+      if (!lastSeen || Date.now() - parseInt(lastSeen) > threeDays) {
+        setTimeout(() => {
+          $('#social-popup-overlay').classList.add('show');
+          setTimeout(() => { closeSocialPopup(); }, 3000);
+        }, 2000);
+      }
+    };
+    window.closeSocialPopup = function() {
+      localStorage.setItem('rareids_social_popup_last_seen', Date.now().toString());
+      $('#social-popup-overlay').classList.remove('show');
+    };
+
+    function openFilterPopup(page) {
+      const popup = $('#filter-popup');
+      const isLanding = page === 'landing';
+      const sort = isLanding ? (landingSort || 'price-asc') : (homeSort || 'price-asc');
+      const bracket = isLanding ? landingPriceBracket : homePriceBracket;
+      const sorts = [
+        { v: 'price-asc', l: 'Price: Low to High' },
+        { v: 'price-desc', l: 'Price: High to Low' },
+        { v: 'id-asc', l: 'ID: A to Z' },
+        { v: 'id-desc', l: 'ID: Z to A' },
+        { v: 'repeat', l: 'Pattern: Repeating' },
+      ];
+      const sortHtml = sorts.map(s => '<div class="filter-sort-item' + (s.v === sort ? ' active' : '') + '" onclick="applyFilterSort(\'' + s.v + '\',\'' + page + '\')">' + s.l + '</div>').join('');
+
+      const priceBrackets = [];
+      if (state.priceInit && state.priceAbs.min < state.priceAbs.max) {
+        const min = state.priceAbs.min;
+        const max = state.priceAbs.max;
+        const span = max - min;
+        if (span > 0) {
+          const b1 = min + span * 0.25;
+          const b2 = min + span * 0.5;
+          const b3 = min + span * 0.75;
+          priceBrackets.push(
+            { label: 'Under ' + disp(b1), idx: 0 },
+            { label: disp(b1) + ' – ' + disp(b2), idx: 1 },
+            { label: disp(b2) + ' – ' + disp(b3), idx: 2 },
+            { label: disp(b3) + '+', idx: 3 },
+            { label: 'All Prices', idx: 4 }
+          );
+        }
+      }
+      const bracketHtml = priceBrackets.map(b =>
+        '<div class="price-bracket' + (bracket === b.idx ? ' active' : '') + '" onclick="applyFilterBracket(' + b.idx + ',\'' + page + '\')">' + b.label + '</div>'
+      ).join('');
+
+      popup.innerHTML = `
+        <div class="filter-popup-header">
+          <h3>Filters</h3>
+          <div class="filter-popup-close" onclick="closeFilterPopup()"><ion-icon name="close"></ion-icon></div>
+        </div>
+        <div class="filter-section">
+          <h4>Sort By</h4>
+          ${sortHtml}
+        </div>
+        <div class="filter-section">
+          <h4>Price Range</h4>
+          <div class="price-brackets">${bracketHtml}</div>
+        </div>
+        <div class="filter-popup-footer">
+          <button class="btn btn-secondary" onclick="applyFilterClear('${page}')">Clear All</button>
+          <button class="btn btn-primary" onclick="applyFilterPopup('${page}')">Apply</button>
+        </div>`;
+
+      $('#filter-popup-overlay').classList.add('show');
+    }
+
+    function closeFilterPopup() {
+      $('#filter-popup-overlay').classList.remove('show');
+    }
+
+    window.applyFilterSort = function (val, page) {
+      if (page === 'landing') { landingSort = val; } else { homeSort = val; }
+      openFilterPopup(page);
+    };
+
+    window.applyFilterBracket = function (idx, page) {
+      if (page === 'landing') { landingPriceBracket = idx; } else { homePriceBracket = idx; }
+      openFilterPopup(page);
+    };
+
+    window.applyFilterClear = function (page) {
+      if (page === 'landing') {
+        landingSort = 'price-asc';
+        landingPriceBracket = null;
+      } else {
+        homeSort = 'price-asc';
+        homePriceBracket = null;
+      }
+      closeFilterPopup();
+      if (page === 'landing') buildLandingContent($('#landing-main'));
+      else renderHomeContent();
+    };
+
+    window.applyFilterPopup = function (page) {
+      closeFilterPopup();
+      if (page === 'landing') buildLandingContent($('#landing-main'));
+      else renderHomeContent();
+    };
+
+    function filterAndSort(list, search, sort, tag, bracketIdx) {
+      let r = [...list].filter(l => (l.status === 'available' || !l.status));
+      if (tag) r = r.filter(l => (l.tags || []).includes(tag) || l.category === tag);
+      if (search) {
+        const q = search.toLowerCase();
+        r = r.filter(l => l.ffId.toLowerCase().includes(q) || (l.tags || []).some(t => t.toLowerCase().includes(q)));
+      }
+      if (bracketIdx !== null && bracketIdx !== undefined) {
+        const min = state.priceAbs.min;
+        const max = state.priceAbs.max;
+        const span = max - min;
+        if (span > 0) {
+          const b1 = min + span * 0.25;
+          const b2 = min + span * 0.5;
+          const b3 = min + span * 0.75;
+          const brackets = [
+            { min: min, max: b1 },
+            { min: b1, max: b2 },
+            { min: b2, max: b3 },
+            { min: b3, max: max },
+            { min: min, max: max },
+          ];
+          if (brackets[bracketIdx]) {
+            r = r.filter(l => l.price >= brackets[bracketIdx].min && l.price <= brackets[bracketIdx].max);
+          }
+        }
+      }
+      switch (sort) {
+        case 'price-asc': r.sort((a, b) => a.price - b.price); break;
+        case 'price-desc': r.sort((a, b) => b.price - a.price); break;
+        case 'id-asc': r.sort((a, b) => a.account_id.localeCompare(b.account_id)); break;
+        case 'id-desc': r.sort((a, b) => b.account_id.localeCompare(a.account_id)); break;
+        case 'repeat': {
+          const cnt = (id) => { const m = {}; for (const c of id) { if (/[0-9]/.test(c)) m[c] = (m[c] || 0) + 1; } return Math.max(...Object.values(m), 0); };
+          r.sort((a, b) => { const d = cnt(b.account_id) - cnt(a.account_id); return d !== 0 ? d : a.price - b.price; });
+          break;
+        }
+        default: r.sort((a, b) => a.price - b.price);
+      }
+      return r;
+    }
+
+    function tagsFrom(list) {
+      const s = new Set();
+    list.forEach(l => { (l.tags || []).forEach(t => s.add(t)); if (l.category) s.add(l.category); });
+      return [...s];
+    }
+
+    function renderLanding() {
+      const main = $('#landing-main');
+      main.innerHTML = '<div class="loader-center"><div class="loader"></div></div>';
+      const lc = localStorage.getItem('rareids_landing_currency');
+      if (lc && state.currency === 'USD' && !state.token) {
+        state.landingCurrency = lc;
+      }
+      fetchListings().then(() => buildLandingContent(main));
+    }
+
+    function buildLandingContent(main) {
+      const allTags = tagsFrom(state.listings);
+      const landingCurrency = localStorage.getItem('rareids_landing_currency');
+
+      const currencyPromptHtml = !landingCurrency ? `
+    <div class="currency-prompt">
+      <ion-icon name="cash-outline"></ion-icon>
+      <h3>Select Your Currency</h3>
+      <p>Choose your preferred currency to see prices</p>
+      <div class="prompt-row">
+        <select id="landing-currency-select" class="auth-currency-select">
+          ${currencyList.map(c => '<option value="' + c + '"' + (c === 'USD' ? ' selected' : '') + '>' + c + ' (' + (currencySymbols[c] || '') + ')</option>').join('')}
+        </select>
+        <button class="btn btn-primary btn-sm btn-continue" onclick="setLandingCurrency()">Continue</button>
+      </div>
+    </div>` : '';
+
+      window.setLandingCurrency = async function () {
+        const c = $('#landing-currency-select').value;
+        localStorage.setItem('rareids_landing_currency', c);
+        localStorage.setItem('rareids_currency', c);
+        state.landingCurrency = c;
+        state.currency = c;
+        state.symbol = currencySymbols[c] || '$';
+        localStorage.setItem('rareids_rate', '1');
+        state.rate = 1;
+        await fetchListings();
+        buildLandingContent($('#landing-main'));
+      };
+
+      const render = () => {
+        const filtered = filterAndSort(state.listings, landingSearch || '', landingSort, landingTag, landingPriceBracket);
+        const activeSort = landingSort || 'price-asc';
+        const activeSearch = landingSearch || '';
+        const tagHtml = '<span class="tag active" data-t="">All</span>' + allTags.map(t => '<span class="tag" data-t="' + t + '">' + t + '</span>').join('');
+        const listHtml = filtered.length === 0
+          ? '<div class="empty-state"><ion-icon name="funnel-outline"></ion-icon><p>No matching IDs found</p><button class="btn btn-secondary btn-sm empty-state-btn" onclick="landingSearch=\'\';landingTag=null;resetPriceRange();buildLandingContent($(\'#landing-main\'))">Clear Filters</button></div>'
+            : filtered.map(l => {
+            const badge = (l.tags || []).find(t => t.toUpperCase() === 'NEW' || t.toUpperCase() === 'HOT');
+            const inCart = l.isInUserCart;
+            const escId = escAttr(l.ffId);
+            const btnClass = inCart ? 'icon-btn-circle remove' : 'icon-btn-circle';
+            const btnIcon = inCart ? 'trash-outline' : 'cart-outline';
+            const btnAction = inCart
+              ? 'removeFromCart(\'' + escId + '\', this)'
+              : 'addToCart(\'' + escId + '\', this)';
+            return '<div class="listing-row listing-row-rel">' +
+              (badge ? '<div class="badge-tag">' + badge + '</div>' : '') +
+              '<span class="id">' + l.ffId + '</span>' +
+              '<div class="actions"><span class="price">' + disp(l.price) + '</span>' +
+              '<button class="' + btnClass + '" onclick="' + btnAction + '"><ion-icon name="' + btnIcon + '"></ion-icon></button></div></div>';
+          }).join('');
+
+        const rangeActive = state.priceInit && landingPriceBracket !== null;
+        const filterActive = rangeActive || activeSort !== 'price-asc';
+        const sorts = [
+          { v: 'price-asc', l: 'Price: Low to High' },
+          { v: 'price-desc', l: 'Price: High to Low' },
+          { v: 'id-asc', l: 'ID: A to Z' },
+          { v: 'id-desc', l: 'ID: Z to A' },
+          { v: 'repeat', l: 'Pattern: Repeating' },
+        ];
+
+        const wasSearchFocused = document.activeElement && document.activeElement.tagName === 'INPUT' && document.activeElement.placeholder === 'Search...';
+        const cursorPos = wasSearchFocused ? document.activeElement.selectionStart : -1;
+
+        main.innerHTML = currencyPromptHtml + `
+      <div class="landing-toolbar">
+        <div class="search-filter-row">
+          <div class="search-box"><ion-icon name="search-outline"></ion-icon><input type="text" placeholder="Search..." value="${activeSearch}" oninput="landingSearch=this.value;buildLandingContent($('#landing-main'))"></div>
+          <div class="filter-btn${filterActive ? ' active' : ''}" onclick="openFilterPopup('landing')"><ion-icon name="options-outline"></ion-icon></div>
+        </div>
+        <div class="tags-scroll">${tagHtml}</div>
+      </div>
+      <div>${listHtml}</div>`;
+
+        if (wasSearchFocused) {
+          const inp = main.querySelector('input');
+          if (inp) { inp.focus(); inp.selectionStart = inp.selectionEnd = cursorPos; }
+        }
+
+        document.querySelectorAll('#landing-main .tag').forEach(el => {
+          el.addEventListener('click', () => {
+            const t = el.dataset.t;
+            landingTag = t || null;
+            buildLandingContent($('#landing-main'));
+          });
+        });
+        const tags = document.querySelectorAll('#landing-main .tag');
+        tags.forEach(el => {
+          if ((!landingTag && el.dataset.t === '') || el.dataset.t === landingTag) el.classList.add('active');
+          else el.classList.remove('active');
+        });
+      };
+
+      window.landingSearch = window.landingSearch || '';
+      window.landingSort = window.landingSort || 'price-asc';
+      window.landingTag = window.landingTag || null;
+      window.landingPriceBracket = window.landingPriceBracket !== undefined ? window.landingPriceBracket : null;
+      window.resetPriceRange = () => {
+        window.landingPriceBracket = null;
+        buildLandingContent($('#landing-main'));
+      };
+
+      render();
+      checkSocialPopup();
+    }
+
+    function renderAuth() {
+      var mode = state._authMode || 'register';
+      window._setAuthMode = function (m) { state._authMode = m; renderAuth(); };
+      $('#auth-main').innerHTML = `
+    <div class="auth-wrap">
+      <div class="auth-logo-center">
+        <ion-icon name="shield-checkmark"></ion-icon>
+        <h2>FenixxUID</h2>
+      </div>
+      <div class="tabs">
+        <div class="tab ` + (mode === 'login' ? 'active' : '') + `" onclick="_setAuthMode('login')">Sign In</div>
+        <div class="tab ` + (mode === 'register' ? 'active' : '') + `" onclick="_setAuthMode('register')">Create Account</div>
+      </div>
+      <form id="auth-form" onsubmit="handleAuth(event, '${mode}')" class="auth-form">
+        ${mode === 'register' ? `
+          <div class="form-group"><label>Full Name</label><input type="text" id="reg-name" placeholder="John Doe" required></div>
+          <div class="form-group"><label>Preferred Currency</label><select id="reg-currency" class="auth-currency-select">
+            ${currencyList.map(c => '<option value="' + c + '"' + (c === 'USD' ? ' selected' : '') + '>' + c + ' (' + (currencySymbols[c] || '') + ')</option>').join('')}
+          </select></div>
+        `: ''}
+        <div class="form-group"><label>Email Address</label><input type="email" id="auth-email" placeholder="name@example.com" required></div>
+        ${mode === 'register' ? `
+          <div class="form-group"><label>Mobile Number</label><input type="tel" id="reg-mobile" placeholder="+1 234 567 890" required></div>
+        `: ''}
+        <div class="form-group"><label>Password</label><input type="password" id="auth-pass" placeholder="••••••••" required minlength="6"></div>
+        <div class="check-row ${state._agreed ? 'checked' : ''}" onclick="state._agreed=!state._agreed;this.classList.toggle('checked')">
+          <div class="check-box"><ion-icon name="checkmark"></ion-icon></div>
+          <span>I agree to the <a href="#" onclick="event.stopPropagation();showSection('tos')" class="link-underline">Terms</a> & <a href="#" onclick="event.stopPropagation();showSection('privacy')" class="link-underline">Privacy</a></span>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block btn-lg" id="auth-submit">${mode === 'login' ? 'Sign In' : 'Create Account'}</button>
+      </form>
+      <p class="auth-footer-text">Secure authentication</p>
+    </div>`;
+      state._turnstileToken = 'enabled';
+      state._turnstileRendered = false;
+      state._turnstileAttempts = 0;
+      var submitBtn = $('#auth-submit');
+      if (submitBtn) submitBtn.disabled = false;
+
+      function tryRenderTurnstile() {
+        // Turnstile disabled for development/testing
+        return;
+      }
+      tryRenderTurnstile();
+    }
+
+    window.bypassTurnstile = function () {
+      state._turnstileToken = 'bypass';
+      var b = $('#auth-submit');
+      if (b) b.disabled = false;
+      var c = $('#turnstile-container');
+      c.innerHTML = '<div class="turnstile-bypass"><ion-icon name="checkmark-circle"></ion-icon> Verified</div>';
+    };
+
+    window.handleAuth = async function (e, mode) {
+      e.preventDefault();
+      if (!state._agreed) return toast('You must agree to the terms', 'error');
+      // Turnstile check disabled for development/testing
+
+      const btn = $('#auth-submit');
+      btn.disabled = true;
+      btn.textContent = mode === 'login' ? 'Signing in...' : 'Creating account...';
+
+      try {
+        const body = {
+          action: mode,
+          email: $('#auth-email').value,
+          password: $('#auth-pass').value,
+          captcha_token: state._turnstileToken
+        };
+        if (mode === 'register') {
+          body.name = $('#reg-name').value;
+          body.mobile_number = $('#reg-mobile').value;
+          body.currency = $('#reg-currency').value;
+        }
+        const res = await apiCall('POST', '/auth', body);
+        if (res && res.success) {
+          toast(mode === 'login' ? 'Welcome back' : 'Account created successfully', 'success');
+          state._agreed = false;
+          state._turnstileToken = null;
+          login(res.data.token);
+        } else {
+          toast((res && res.message) || 'Authentication failed', 'error');
+          btn.disabled = false;
+          btn.textContent = mode === 'login' ? 'Sign In' : 'Create Account';
+        }
+      } catch (e) {
+        toast('Connection error', 'error');
+        btn.disabled = false;
+        btn.textContent = mode === 'login' ? 'Sign In' : 'Create Account';
+      }
+    };
+
+    function renderHome() {
+      if (!state.token) { showSection('auth'); return; }
+      const main = $('#home-main');
+      main.innerHTML = '<div class="loader-center"><div class="loader"></div></div>';
+
+      fetchListings().then(() => {
+        if (state.notifications.length === 0) state.counts.notification_count = 0;
+        const allTags = tagsFrom(state.listings);
+
+        const render = () => {
+          const filtered = filterAndSort(state.listings, homeSearch || '', homeSort, homeTag, homePriceBracket);
+          const activeSort = homeSort || 'price-asc';
+          const activeSearch = homeSearch || '';
+          const tagHtml = '<span class="tag active" data-t="">All</span>' + allTags.map(t => '<span class="tag" data-t="' + t + '">' + t + '</span>').join('');
+          const listHtml = filtered.length === 0
+            ? '<div class="empty-state"><ion-icon name="funnel-outline"></ion-icon><p>No matching IDs found</p><button class="btn btn-secondary btn-sm empty-state-btn" onclick="homeSearch=\'\';homeTag=null;homeResetRange();renderHomeContent()">Clear Filters</button></div>'
+            : filtered.map(l => {
+              const badge = (l.tags || []).find(t => t.toUpperCase() === 'NEW' || t.toUpperCase() === 'HOT');
+              const inCart = l.isInUserCart;
+              const escId = escAttr(l.ffId);
+              const btnClass = inCart ? 'icon-btn-circle remove' : 'icon-btn-circle';
+              const btnIcon = inCart ? 'trash-outline' : 'cart-outline';
+              const btnAction = inCart
+                ? 'removeFromCart(\'' + escId + '\', this)'
+                : 'addToCart(\'' + escId + '\', this)';
+              return '<div class="listing-row listing-row-rel">' +
+                (badge ? '<div class="badge-tag">' + badge + '</div>' : '') +
+                '<span class="id">' + l.ffId + '</span>' +
+                '<div class="actions"><span class="price">' + disp(l.price) + '</span>' +
+                '<button class="' + btnClass + '" onclick="' + btnAction + '"><ion-icon name="' + btnIcon + '"></ion-icon></button></div></div>';
+            }).join('');
+
+          const rangeActive = state.priceInit && homePriceBracket !== null;
+          const filterActive = rangeActive || activeSort !== 'price-asc';
+          const sorts = [
+            { v: 'price-asc', l: 'Price: Low to High' },
+            { v: 'price-desc', l: 'Price: High to Low' },
+            { v: 'id-asc', l: 'ID: A to Z' },
+            { v: 'id-desc', l: 'ID: Z to A' },
+            { v: 'repeat', l: 'Pattern: Repeating' },
+          ];
+
+          const wasSearchFocused = document.activeElement && document.activeElement.tagName === 'INPUT' && document.activeElement.placeholder === 'Search...';
+          const cursorPos = wasSearchFocused ? document.activeElement.selectionStart : -1;
+
+          main.innerHTML = `
+        <div class="landing-toolbar-alt">
+          <div class="search-filter-row">
+            <div class="search-box"><ion-icon name="search-outline"></ion-icon><input type="text" placeholder="Search..." value="${activeSearch}" oninput="homeSearch=this.value;renderHomeContent()"></div>
+            <div class="filter-btn${filterActive ? ' active' : ''}" onclick="openFilterPopup('home')"><ion-icon name="options-outline"></ion-icon></div>
+          </div>
+          <div class="tags-scroll">${tagHtml}</div>
+        </div>
+        <div>${listHtml}</div>`;
+
+          if (wasSearchFocused) {
+            const inp = main.querySelector('input');
+            if (inp) { inp.focus(); inp.selectionStart = inp.selectionEnd = cursorPos; }
+          }
+
+          document.querySelectorAll('#home-main .tag').forEach(el => {
+            el.addEventListener('click', () => { homeTag = el.dataset.t || null; renderHomeContent(); });
+          });
+          const tags = document.querySelectorAll('#home-main .tag');
+          tags.forEach(el => {
+            if ((!homeTag && el.dataset.t === '') || el.dataset.t === homeTag) el.classList.add('active');
+            else el.classList.remove('active');
+          });
+        };
+
+        window.homeSearch = window.homeSearch || '';
+        window.homeSort = window.homeSort || 'price-asc';
+        window.homeTag = window.homeTag || null;
+        window.homePriceBracket = window.homePriceBracket !== undefined ? window.homePriceBracket : null;
+        window.renderHomeContent = () => { render(); };
+        window.homeResetRange = () => { window.homePriceBracket = null; render(); };
+        window.addToCart = async function (accountId, btn) {
+          if (!state.token) { showSection('auth'); return; }
+          if (btn) {
+            btn.classList.add('added');
+            btn.querySelector('ion-icon').name = 'checkmark';
+          }
+          try {
+            const res = await apiCall('POST', '/cart', { action: 'add', account_ids: [accountId] });
+            if (res && res.success) {
+              toast('Added to cart', 'success');
+              await bootstrap();
+              updateHeader();
+              await fetchListings();
+              render();
+            } else {
+              if (btn) {
+                btn.classList.remove('added');
+                btn.querySelector('ion-icon').name = 'cart-outline';
+              }
+              toast((res && res.message) || 'Failed', 'error');
+            }
+          } catch (e) {
+            if (btn) {
+              btn.classList.remove('added');
+              btn.querySelector('ion-icon').name = 'cart-outline';
+            }
+            toast('Error', 'error');
+          }
+        };
+        window.removeFromCart = async function (accountId, btn) {
+          if (!state.token) { showSection('auth'); return; }
+          try {
+            const res = await apiCall('POST', '/cart', { action: 'remove', account_id: accountId });
+            if (res && res.success) {
+              toast('Removed from cart', 'success');
+              await bootstrap();
+              updateHeader();
+              await fetchListings();
+              render();
+            } else toast((res && res.message) || 'Failed', 'error');
+          } catch (e) { toast('Error', 'error'); }
+        };
+
+        render();
+        checkSocialPopup();
+        updateHeader();
+      });
+    }
+
+    async function renderCart() {
+      if (!state.token) { showSection('auth'); return; }
+      const main = $('#cart-main');
+      main.innerHTML = '<div class="loader-center"><div class="loader"></div></div>';
+
+      try {
+        const res = await apiCall('POST', '/cart', { action: 'get_detailed', currency: state.currency });
+        const cart = (res && res.data) ? res.data : null;
+        state.cart = cart;
+
+        if (!cart || cart.items.length === 0) {
+          main.innerHTML = '<div class="empty-state cart-empty"><ion-icon name="cart-outline"></ion-icon><p>Your cart is empty</p><button class="btn btn-primary" onclick="navTo(\'home\')">Browse Rare IDs</button><button class="btn btn-secondary" style="margin-top:8px" onclick="navTo(\'purchases\')">My Purchases</button></div>';
+          return;
+        }
+
+        const hasUnavail = cart.items.some(i => i.status !== 'available');
+        const itemHtml = cart.items.map(i => `
+      <div class="listing-row${i.status !== 'available' ? ' cart-unavail' : ''}">
+        <div class="cart-col">
+          <span class="id">${i.account_id}</span>
+          ${i.status !== 'available' ? '<span class="cart-na">Not Available</span>' : ''}
+        </div>
+        <div class="actions">
+          <span class="price">${disp(i.price * (state.rate || 1))}</span>
+          <button class="icon-btn danger" onclick="removeCartItem('${escAttr(i.account_id)}')"><ion-icon name="trash-outline"></ion-icon></button>
+        </div>
+      </div>`).join('');
+
+        main.innerHTML = `
+      <div class="home-toolbar"><div class="cart-link-row">
+        <a href="#" onclick="navTo('purchases');return false" class="cart-link">Purchase History <ion-icon name="chevron-forward"></ion-icon></a>
+      </div>
+      ${itemHtml}
+      <div class="cart-summary">
+        <div class="cart-total-row">
+          <span class="cart-total-label">Subtotal</span>
+          <span class="cart-total-amt">${disp(cart.subtotal * (state.rate || 1))}</span>
+        </div>
+        ${hasUnavail ? '<div class="cart-warn">Some items are no longer available. Please remove them.</div>' : ''}
+        <div class="check-row cart-agree ${state._cartAgreed ? 'checked' : ''}" id="cart-agree-row" onclick="toggleCartAgree()">
+          <div class="check-box"><ion-icon name="checkmark"></ion-icon></div>
+          <span>I agree to the Terms of Service and understand all sales are final</span>
+        </div>
+        <button class="btn btn-primary btn-block btn-lg" id="cart-checkout-btn" ${(!state._cartAgreed || hasUnavail) ? 'disabled' : ''} onclick="handleCheckoutClick()">Checkout Now</button>
+      </div></div>`;
+
+        window.removeCartItem = async function (accId) {
+          try {
+            const r = await apiCall('POST', '/cart', { action: 'remove', account_id: accId });
+            if (r && r.success) { toast('Item removed', 'success'); await bootstrap(); updateHeader(); renderCart(); }
+          } catch (e) { toast('Error', 'error'); }
+        };
+
+        window.toggleCartAgree = function () {
+          state._cartAgreed = !state._cartAgreed;
+          const row = document.getElementById('cart-agree-row');
+          const btn = document.getElementById('cart-checkout-btn');
+          if (row) row.classList.toggle('checked', state._cartAgreed);
+          if (btn) btn.disabled = !state._cartAgreed || hasUnavail;
+        };
+
+        window.handleCheckoutClick = function () {
+          if (!state._cartAgreed) {
+            const btn = document.getElementById('cart-checkout-btn');
+            if (btn) {
+              btn.classList.add('point');
+              setTimeout(() => btn.classList.remove('point'), 1500);
+            }
+            toast('Please agree to the Terms of Service', 'error');
+            return;
+          }
+          openCheckout();
+        };
+      } catch (e) { main.innerHTML = '<div class="empty-state"><p>Failed to load cart</p></div>'; }
+    }
+
+    window.openCheckout = function () {
+      const cart = state.cart;
+      if (!cart) return;
+      let couponCode = '', couponPreview = null, checkoutResult = null, checkingOut = false;
+
+      const renderModal = () => {
+        if (checkoutResult) {
+          const purchasedItems = checkoutResult.purchases || checkoutResult.items || []
+          const itemCards = purchasedItems.map((item, idx) => `
+        <div class="modal-purchase-card">
+          <div class="modal-purchase-header">
+            <span class="modal-purchase-id">${item.ffId || item.ff_id || item.accountId || item.account_id || ''}</span>
+          </div>
+          <div class="modal-purchase-divider"></div>
+          <div class="modal-purchase-field">
+            <span class="modal-purchase-label">FF ID</span>
+            <div class="modal-purchase-value-row">
+              <span class="modal-purchase-value">${item.ffId || item.ff_id || item.accountId || item.account_id || ''}</span>
+              <button class="modal-copy-btn" onclick="copyText('${escAttr(item.ffId || item.ff_id || item.accountId || item.account_id || '')}')">Copy</button>
+            </div>
+          </div>
+          <div class="modal-purchase-field">
+            <span class="modal-purchase-label">UID</span>
+            <div class="modal-purchase-value-row">
+              <span class="modal-purchase-value">${item.uid || ''}</span>
+              <button class="modal-copy-btn" onclick="copyText('${escAttr(item.uid || '')}')">Copy</button>
+            </div>
+          </div>
+          <div class="modal-purchase-field">
+            <span class="modal-purchase-label">Password</span>
+            <div class="modal-purchase-value-row">
+              <span class="modal-purchase-value">${item.password || ''}</span>
+              <button class="modal-copy-btn" onclick="copyText('${escAttr(item.password || '')}')">Copy</button>
+            </div>
+          </div>
+        </div>`).join('');
+          $('#modal-content').innerHTML = `
+        <div class="checkout-center">
+          <div class="checkout-icon-circle">
+            <ion-icon name="checkmark-circle"></ion-icon>
+          </div>
+          <h2>Order Complete</h2>
+          <p>Save your credentials immediately</p>
+        </div>
+        ${itemCards}
+        <button class="btn btn-primary btn-block btn-lg" onclick="closeModal();navTo('cart')">Close</button>`;
+          return;
+        }
+
+        const effSubtotal = couponPreview ? couponPreview.subtotal : cart.subtotal;
+        const effDiscount = couponPreview ? couponPreview.discount : (cart.discount || 0);
+        const effFinal = couponPreview ? couponPreview.final_amount : cart.final_amount;
+
+        $('#modal-content').innerHTML = `
+      <h2>Checkout</h2>
+      <p>Review your order and apply a coupon code</p>
+      <div class="checkout-summary">
+        ${cart.items.map(i => '<div class="checkout-line"><span>' + i.account_id + '</span><span>' + disp(i.price * (state.rate || 1)) + '</span></div>').join('')}
+      </div>
+      <details class="coupon-details">
+        <summary>Have a coupon code?</summary>
+        <div class="coupon-input-row checkout-coupon-row">
+          <input type="text" placeholder="COUPON CODE" value="${couponCode}" oninput="checkoutCoupon=this.value.toUpperCase()" class="checkout-coupon-input">
+          <button class="btn btn-secondary btn-sm" id="checkout-apply-btn" onclick="applyCheckoutCoupon()">Apply</button>
+        </div>
+      </details>
+      <div class="checkout-totals">
+        <div class="checkout-totals-line"><span>Subtotal</span><span>${disp(effSubtotal * (state.rate || 1))}</span></div>
+        ${effDiscount > 0 ? '<div class="checkout-totals-line"><span>Discount</span><span>-' + disp(effDiscount * (state.rate || 1)) + '</span></div>' : ''}
+        <div class="checkout-total-divider">
+          <span class="checkout-total-label">Total</span>
+          <span class="checkout-total-val">${disp(effFinal * (state.rate || 1))}</span>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block btn-lg" onclick="executeCheckout()" ${checkingOut ? 'disabled' : ''}>
+        ${checkingOut ? '<div class="loader"></div> Processing...' : 'Confirm Purchase'}
+      </button>
+      <button class="btn btn-ghost btn-block checkout-cancel" onclick="closeModal()">Cancel</button>`;
+
+        window.checkoutCoupon = window.checkoutCoupon || '';
+        window.applyCheckoutCoupon = async function () {
+          const code = window.checkoutCoupon;
+          if (!code) return toast('Enter a coupon code', 'error');
+          const btn = document.getElementById('checkout-apply-btn');
+          if (btn) { btn.innerHTML = '<div class="loader"></div>'; btn.disabled = true; }
+          try {
+            const r = await apiCall('POST', '/promo', { action: 'validate', code, currency: state.currency });
+            if (r && r.success) { couponPreview = r.data; couponCode = code; toast('Coupon applied', 'success'); renderModal(); }
+            else { if (btn) { btn.innerHTML = 'Apply'; btn.disabled = false; } toast((r && r.message) || 'Invalid coupon', 'error'); }
+          } catch (e) { if (btn) { btn.innerHTML = 'Apply'; btn.disabled = false; } toast('Invalid coupon code', 'error'); }
+        };
+        window.executeCheckout = async function () {
+          checkingOut = true; renderModal();
+          try {
+            const body = {
+              currency: (state.currency || 'USD'),
+              items: (state.cart?.items || []).map(i => ({ productId: i.product_id || i.id }))
+            };
+            console.log('Checkout body:', JSON.stringify(body));
+            if (couponCode) body.promo_code = couponCode;
+            const r = await apiCall('POST', '/checkout', body);
+            if (r && r.success) {
+              checkoutResult = r.data;
+              toast('Purchase successful!', 'success');
+              await bootstrap(); updateHeader(); state.cart = null;
+              renderModal();
+            } else {
+              toast((r && r.message) || 'Checkout failed', 'error');
+              checkingOut = false; renderModal();
+            }
+          } catch (e) { toast('Checkout failed', 'error'); checkingOut = false; renderModal(); }
+        };
+      };
+
+      renderModal();
+      openModal('');
+    };
+
+    window.copyText = function (text) {
+      navigator.clipboard.writeText(text).then(() => toast('Copied', 'success')).catch(() => toast('Failed to copy', 'error'));
+    };
+
+    async function renderWallet() {
+      if (!state.token) { showSection('auth'); return; }
+      const main = $('#wallet-main');
+      if (!state.wallet) await bootstrap();
+      const w = state.wallet || { balance: 0, total_deposits: 0, total_spends: 0 };
+
+      main.innerHTML = `
+    <div>
+      <div class="card wallet-card">
+        <div class="wallet-bg-icon"><ion-icon name="wallet-outline"></ion-icon></div>
+        <div class="wallet-card-inner">
+          <span class="wallet-label">Available Balance</span>
+          <div class="wallet-balance">${disp(w.balance_converted)}</div>
+        </div>
+      </div>
+
+      <div class="wallet-section">
+        <div class="wallet-section-header"><ion-icon name="refresh-circle-outline"></ion-icon><span>Add Balance</span></div>
+        <p class="wallet-desc">Contact support to top up your wallet. We support all major payment methods.</p>
+        <button class="btn btn-primary btn-block" onclick="navTo('support')"><ion-icon name="chatbubble-ellipses-outline"></ion-icon> Contact Support</button>
+      </div>
+
+      <div class="wallet-section">
+        <div class="wallet-section-header"><ion-icon name="gift-outline"></ion-icon><span>Redeem Code</span></div>
+        <div class="coupon-input-row wallet-coupon-row">
+          <input type="text" id="wallet-coupon" placeholder="ENTER CODE" class="wallet-coupon-input">
+          <button class="btn btn-primary btn-sm" id="redeem-btn" onclick="redeemCoupon()">REDEEM</button>
+        </div>
+      </div>
+
+      <div class="wallet-tx">
+        <button class="btn btn-secondary btn-block wallet-tx-btn" onclick="loadWalletTx()"><ion-icon name="time-outline"></ion-icon> Load History</button>
+        <div id="wallet-tx-list"></div>
+      </div>
+    </div>`;
+
+      window.redeemCoupon = async function () {
+        const code = $('#wallet-coupon').value.trim();
+        if (!code) return toast('Enter a coupon code', 'error');
+        const btn = $('#redeem-btn');
+        btn.innerHTML = '<div class="loader"></div>';
+        btn.disabled = true;
+        try {
+          const r = await apiCall('POST', '/promo', { action: 'redeem', code, currency: state.currency });
+          if (r && r.success) {
+            toast('Redeemed ' + disp(r.data.reward_value) + '!', 'success');
+            $('#wallet-coupon').value = '';
+            await bootstrap(); updateHeader(); renderWallet();
+            if (document.getElementById('wallet-tx-list').children.length > 0) loadWalletTx();
+          } else {
+            btn.innerHTML = 'REDEEM';
+            btn.disabled = false;
+            toast((r && r.message) || 'Invalid code', 'error');
+          }
+        } catch (e) {
+          btn.innerHTML = 'REDEEM';
+          btn.disabled = false;
+          toast('Invalid or expired code', 'error');
+        }
+      };
+
+      window.loadWalletTx = async function () {
+        const list = $('#wallet-tx-list');
+        list.innerHTML = '<div class="wallet-tx-loader"><div class="loader"></div></div>';
+        try {
+          const r = await apiCall('GET', '/wallet?action=transactions&limit=20&currency=' + state.currency);
+          if (r && r.success) {
+            const txs = r.data.transactions || [];
+            if (txs.length === 0) {
+              list.innerHTML = '<div class="wallet-tx-empty">No transactions found</div>';
+            } else {
+              list.innerHTML = txs.map(t => `
+            <div class="tx-row">
+              <div class="tx-info">
+                <span class="tx-type">${(t.type || '').replace(/_/g, ' ')}</span>
+                <span class="tx-date">${new Date(t.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
+              </div>
+              <span class="tx-amount ${t.amount > 0 ? 'positive' : ''}">${t.amount > 0 ? '+' : ''}${disp(Math.abs(t.amount))}</span>
+            </div>`).join('');
+            }
+          }
+        } catch (e) { list.innerHTML = '<div class="empty-state"><p>Failed to load</p></div>'; }
+      };
+    }
+
+    function renderMenu() {
+      if (!state.token) { showSection('auth'); return; }
+      const items = [
+        { icon: 'person-outline', label: 'My Profile', action: () => navTo('profile') },
+        { icon: 'receipt-outline', label: 'My Transactions', action: () => navTo('transactions') },
+        { icon: 'bag-handle-outline', label: 'My Purchases', action: () => navTo('purchases') },
+        { icon: 'notifications-outline', label: 'Notifications', action: () => navTo('notifications') },
+        { icon: 'document-text-outline', label: 'Terms of Service', action: () => navTo('tos') },
+        { icon: 'shield-checkmark-outline', label: 'Privacy Policy', action: () => navTo('privacy') },
+        { icon: 'help-circle-outline', label: 'Support', action: () => navTo('support') },
+      ];
+      $('#menu-main').innerHTML = `
+    <div class="menu-currency-card">
+      <div class="menu-currency-l">
+        <ion-icon name="cash-outline"></ion-icon>
+        <span>Currency</span>
+      </div>
+      <div class="menu-currency-r">
+        <select onchange="changeCurrency(this.value)" class="menu-currency-select">
+          ${currencyList.map(c => '<option value="' + c + '"' + (c === state.currency ? ' selected' : '') + '>' + c + ' (' + (currencySymbols[c] || '') + ')</option>').join('')}
+        </select>
+        <ion-icon name="chevron-down" class="menu-currency-chevron"></ion-icon>
+      </div>
+    </div>` + items.map(i => `
+    <div class="menu-item" onclick="(${i.action.toString()})()">
+      <div class="menu-l">
+        <div class="menu-icon"><ion-icon name="${i.icon}"></ion-icon></div>
+        <span class="menu-label">${i.label}</span>
+      </div>
+      <ion-icon name="chevron-forward"></ion-icon>
+    </div>`).join('') + `
+    <div class="menu-item menu-logout" onclick="logout()">
+      <div class="menu-l">
+        <div class="menu-icon"><ion-icon name="log-out-outline"></ion-icon></div>
+        <span class="menu-label">Log Out</span>
+      </div>
+      <ion-icon name="chevron-forward"></ion-icon>
+    </div>`;
+    }
+
+    async function renderProfile() {
+      if (!state.token) { showSection('auth'); return; }
+      const p = state.profile || {};
+      $('#profile-main').innerHTML = `
+    <div>
+      <div class="card profile-card">
+        <h3 class="profile-card-title"><ion-icon name="person-outline"></ion-icon> Personal Info</h3>
+        <form onsubmit="updateProfile(event)" class="profile-form">
+          <div class="form-group"><label>Full Name</label><input type="text" id="prof-name" value="${p.name || ''}" required></div>
+          <div class="form-group"><label>Email</label><input type="email" value="${p.email || ''}" disabled class="profile-input-disabled"></div>
+          <div class="form-group"><label>Mobile</label><input type="tel" id="prof-mobile" value="${p.mobile_number || ''}"></div>
+          <button type="submit" class="btn btn-secondary btn-block">Save Profile</button>
+        </form>
+      </div>
+
+      <div class="profile-currency-card">
+        <div class="profile-currency-l">
+          <ion-icon name="cash-outline"></ion-icon>
+          <span>Currency</span>
+        </div>
+        <div class="profile-currency-r">
+          <select id="prof-currency" onchange="changeCurrency(this.value)" class="profile-currency-select">
+            ${currencyList.map(c => '<option value="' + c + '"' + (c === state.currency ? ' selected' : '') + '>' + c + ' (' + (currencySymbols[c] || '') + ')</option>').join('')}
+          </select>
+          <ion-icon name="chevron-down" class="profile-currency-chevron"></ion-icon>
+        </div>
+      </div>
+
+      <div class="card profile-card">
+        <h3 class="profile-card-title"><ion-icon name="lock-closed-outline"></ion-icon> Change Password</h3>
+        <form onsubmit="changePassword(event)" class="profile-form">
+          <div class="form-group"><label>Current Password</label><input type="password" id="old-pass" required></div>
+          <div class="form-group"><label>New Password</label><input type="password" id="new-pass" required minlength="6"></div>
+          <div class="form-group"><label>Confirm New Password</label><input type="password" id="confirm-pass" required minlength="6"></div>
+          <button type="submit" class="btn btn-secondary btn-block">Change Password</button>
+        </form>
+      </div>
+
+      <button class="btn btn-danger btn-block profile-delete" onclick="deleteAccountPrompt()"><ion-icon name="trash-outline"></ion-icon> Delete Account</button>
+    </div>`;
+
+      window.updateProfile = async function (e) {
+        e.preventDefault();
+        try {
+          const r = await apiCall('POST', '/auth', { action: 'update_profile', name: $('#prof-name').value, mobile_number: $('#prof-mobile').value });
+          if (r && r.success) { toast('Profile updated', 'success'); await bootstrap(); }
+          else toast((r && r.message) || 'Failed', 'error');
+        } catch (e) { toast('Error', 'error'); }
+      };
+
+      window.changePassword = async function (e) {
+        e.preventDefault();
+        const np = $('#new-pass').value;
+        const cp = $('#confirm-pass').value;
+        if (np !== cp) return toast('Passwords do not match', 'error');
+        try {
+          const r = await apiCall('POST', '/auth', { action: 'change_password', old_password: $('#old-pass').value, new_password: np });
+          if (r && r.success) { toast('Password changed. Please log in again.', 'success'); setTimeout(logout, 1500); }
+          else toast((r && r.message) || 'Failed', 'error');
+        } catch (e) { toast('Error', 'error'); }
+      };
+
+      window.deleteAccountPrompt = function () {
+        openModal(`
+      <h2 class="delete-title"><ion-icon name="alert-circle"></ion-icon> Danger Zone</h2>
+      <p>This action is permanent. All your credits and purchases will be lost.</p>
+      <p class="delete-confirm-text">Type <b>DELETE_MY_ACCOUNT</b> to confirm:</p>
+      <input type="text" id="delete-confirm" placeholder="Type here..." class="delete-input" oninput="document.getElementById('delete-btn').disabled=this.value!=='DELETE_MY_ACCOUNT'">
+      <button class="btn btn-danger btn-block btn-lg" id="delete-btn" disabled onclick="deleteAccount()">Permanently Delete</button>
+      <button class="btn btn-ghost btn-block checkout-cancel" onclick="closeModal()">Cancel</button>`);
+      };
+
+      window.deleteAccount = async function () {
+        try {
+          const r = await apiCall('POST', '/auth', { action: 'delete_account', confirm: 'DELETE_MY_ACCOUNT' });
+          if (r && r.success) { toast('Account deleted', 'success'); closeModal(); setTimeout(logout, 1000); }
+          else toast((r && r.message) || 'Failed', 'error');
+        } catch (e) { toast('Error', 'error'); }
+      };
+    }
+
+    async function renderTransactions() {
+      if (!state.token) { showSection('auth'); return; }
+      $('#tx-main').innerHTML = '<div class="tx-center-loader"><div class="loader"></div></div>';
+      try {
+        const r = await apiCall('GET', '/wallet?action=transactions&currency=' + state.currency);
+        const txs = (r && r.success && r.data.transactions) ? r.data.transactions : [];
+        if (txs.length === 0) {
+          $('#tx-main').innerHTML = '<div class="empty-state tx-empty"><ion-icon name="receipt-outline"></ion-icon><p>No transactions found</p></div>';
+        } else {
+          $('#tx-main').innerHTML = txs.map(t => `
+        <div class="tx-card">
+          <div class="tx-card-header">
+            <div>
+              <div class="tx-card-type">${(t.type || '').replace(/_/g, ' ')}</div>
+              <div class="tx-card-date">${new Date(t.created_at).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</div>
+            </div>
+            <div class="tx-card-amt ${t.amount > 0 ? 'tx-card-amt-pos' : 'tx-card-amt-neg'}">${t.amount > 0 ? '+' : ''}${disp(Math.abs(t.amount))}</div>
+          </div>
+          <div class="tx-card-footer">
+            <span>Before: ${disp(t.balance_before || 0)}</span>
+            <span>After: ${disp(t.balance_after || 0)}</span>
+          </div>
+        </div>`).join('');
+        }
+      } catch (e) { $('#tx-main').innerHTML = '<div class="empty-state"><p>Failed to load</p></div>'; }
+    }
+
+    async function renderPurchases() {
+      if (!state.token) { showSection('auth'); return; }
+      $('#purchases-main').innerHTML = '<div class="tx-center-loader"><div class="loader"></div></div>';
+      try {
+        const r = await apiCall('GET', '/wallet?action=purchases&currency=' + state.currency);
+        const items = (r && r.success && r.data.items) ? r.data.items : [];
+        if (items.length === 0) {
+          $('#purchases-main').innerHTML = '<div class="empty-state tx-empty"><ion-icon name="bag-handle-outline"></ion-icon><p>No purchases yet</p><button class="btn btn-primary" onclick="navTo(\'home\')">Browse Rare IDs</button></div>';
+        } else {
+          $('#purchases-main').innerHTML = items.map(item => {
+            const tags = (item.tags || []).filter(t => t && t.toUpperCase() !== 'NEW' && t.toUpperCase() !== 'HOT');
+            const tagsHtml = tags.length > 0 ? '<div class="purchase-tags">' + tags.map(t => '<span class="purchase-tag">' + t + '</span>').join('') + '</div>' : '';
+            return `
+        <div class="purchase-card">
+          <div class="purchase-header">
+            <div>
+              <div class="purchase-id">${item.account_id}</div>
+              <div class="purchase-date">${item.sold_at ? new Date(item.sold_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''}</div>
+            </div>
+            <div class="purchase-price">${disp(item.price || 0)}</div>
+          </div>
+          <div class="purchase-divider"></div>
+          <div class="purchase-cred-header">
+            <ion-icon name="key-outline"></ion-icon>
+            <span>Credentials</span>
+          </div>
+          <div class="purchase-cred-row">
+            <div class="purchase-cred-l">
+              <span class="purchase-cred-label">UID</span>
+              <span class="purchase-cred-value">${item.uid || ''}</span>
+            </div>
+            <button onclick="copyText('${escAttr(item.uid || '')}')" class="purchase-copy-btn">Copy</button>
+          </div>
+          <div class="purchase-cred-row">
+            <div class="purchase-cred-l">
+              <span class="purchase-cred-label">Pass</span>
+              <span class="purchase-cred-value-multiline">${item.password || ''}</span>
+            </div>
+            <button onclick="copyText('${escAttr(item.password || '')}')" class="purchase-copy-btn">Copy</button>
+          </div>
+          ${tagsHtml}
+        </div>`;
+          }).join('');
+        }
+      } catch (e) { $('#purchases-main').innerHTML = '<div class="empty-state"><p>Failed to load</p></div>'; }
+    }
+
+    function renderNotifications() {
+      if (!state.token) { showSection('auth'); return; }
+      localStorage.setItem('rareids_notif_seen', state.counts.notification_count || 0);
+      updateHeader();
+      const notifs = state.notifications || [];
+      if (notifs.length === 0) {
+        $('#notif-main').innerHTML = '<div class="empty-state notif-empty"><ion-icon name="notifications-off-outline"></ion-icon><p>No notifications</p></div>';
+      } else {
+        $('#notif-main').innerHTML = notifs.map(n => {
+          const iconClass = n.type === 'warning' ? 'notif-icon-warning' : n.type === 'success' ? 'notif-icon-success' : n.type === 'purchase' ? 'notif-icon-purchase' : 'notif-icon-info';
+          const iconName = n.type === 'warning' ? 'alert-circle' : n.type === 'success' ? 'checkmark-circle' : n.type === 'purchase' ? 'cart' : 'information-circle';
+          return `
+      <div class="card notif-card">
+        <div class="notif-card-inner">
+          <div class="notif-icon"><ion-icon name="${iconName}" class="notif-icon ${iconClass}"></ion-icon></div>
+          <div>
+            <div class="notif-title">${n.title}</div>
+            <p class="notif-msg">${n.message}</p>
+            <div class="notif-date">${n.created_at ? new Date(n.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : ''}</div>
+          </div>
+        </div>
+      </div>`;
+        }).join('');
+      }
+    }
+
+    function renderSupport() {
+      $('#support-main').innerHTML = `
+    <div class="support-header">
+      <h2>Need Assistance?</h2>
+      <p>Get help with questions, issues and balance top-ups</p>
+      <div style="margin-top:14px;font-size:16px;font-weight:700;color:#fff;letter-spacing:0.02em">${state.profile ? 'User ID: ' + state.profile.user_id : ''}</div>
+    </div>
+    <button class="btn btn-fill btn-block btn-lg" onclick="Tawk_API.maximize()" style="padding:18px;border-radius:14px;font-size:15px;font-weight:800;margin-bottom:16px">
+      <ion-icon name="chatbubble-ellipses" style="font-size:20px"></ion-icon> Chat with Us
+    </button>
+    <div class="card support-card" onclick="window.open('mailto:rarebytes@proton.me','_blank')">
+      <div class="support-icon-box"><ion-icon name="mail-outline"></ion-icon></div>
+      <div class="support-info"><div>Email</div><div>rarebytes@proton.me</div></div>
+      <ion-icon name="open-outline" class="support-arrow"></ion-icon>
+    </div>
+    <div class="card support-card" onclick="window.open('https://t.me/FenixxUIDSupport','_blank')">
+      <div class="support-icon-box"><ion-icon name="send"></ion-icon></div>
+      <div class="support-info"><div>Telegram</div><div>Official Support</div></div>
+      <ion-icon name="open-outline" class="support-arrow"></ion-icon>
+    </div>`;
+    }
+
+    function renderTOS() {
+      const sections = [
+        { title: 'WELCOME TO FenixxUID', text: 'Welcome to FenixxUID ("Platform", "we", "us", "our"). These Terms of Service ("Terms") govern your access to and use of our website and services. By registering, accessing, or using the Platform, you agree to be bound by these Terms. "Users" means individuals who register an account and access the Platform as buyers or sellers ("you", "your"). If you do not agree, please do not use the Platform. Violations may result in account suspension and forfeiture of wallet balances.' },
+        { title: 'ABOUT OUR PLATFORM', text: 'FenixxUID is an independent, unofficial, fan-made digital marketplace with no affiliation, partnership, or endorsement from any game publisher, parent company, subsidiaries, or representatives. All game-related assets, characters, items, names, and intellectual property listed belong to their respective original creators and rights holders. We do not claim any ownership over game assets — we provide marketplace infrastructure only.\n\nWe are NOT a party to any transaction between buyers and sellers. We do not own, possess, control, store, or transfer any listed digital asset. All items are uploaded and sold by independent third-party users. We provide only the technology for users to list, browse, purchase, and manage wallet balances. We process wallet-to-wallet balance transfers. Listing accuracy, pricing, delivery, and authenticity are entirely the responsibility of the seller. We do not inspect, verify, or guarantee any listed item.' },
+        { title: 'NO GUARANTEE OF AVAILABILITY', text: 'FenixxUID is an independent platform that may be discontinued, modified, suspended, or shut down at any time. We operate in good faith for the community but never guarantee prolonged availability. Do not rely on this as a constant or permanent service.' },
+        { title: 'SERVER AVAILABILITY & MAINTENANCE', text: 'We may temporarily pause, restart, or update the Platform without prior notice for maintenance, bug fixes, security patches, emergency troubleshooting, performance optimization, or implementation of new features. We do not provide any Service Level Agreement or guarantees regarding uptime, availability, or performance. This is a community marketplace, not a commercial enterprise. We\'ll do our best to keep things running, but we cannot promise perfection.' },
+        { title: 'USER ELIGIBILITY', text: 'You must be at least 18 years of age to use the Platform. By registering, you represent and warrant that you meet this requirement. We reserve the right to verify age and permanently suspend any account found to be operated by a minor. All associated wallet balances of a minor\'s account shall be forfeited.' },
+        { title: 'YOUR ACCOUNT & RESPONSIBILITIES', text: 'When you create an account, you are responsible for: keeping your login credentials secure and private; not sharing account access with anyone; immediately notifying us of unauthorized access or security concerns; ensuring all registration information is accurate and current. We reserve the right to suspend, restrict, or permanently ban any account that violates these Terms or is involved in fraudulent, abusive, or illegal activity.' },
+        { title: 'SELLER REPRESENTATIONS & WARRANTIES', text: 'By listing any item for sale, every seller represents and warrants that: (a) they are the sole lawful owner of the item; (b) they have full legal right, power, and authority to transfer it; (c) the item is not stolen, hacked, or obtained through fraud or illegal means; (d) the listing description is accurate, complete, and honest. Selling stolen or fraudulently obtained items will result in immediate permanent ban, forfeiture of wallet balance, and referral to law enforcement.' },
+        { title: 'BUYER ACKNOWLEDGEMENT — USE AT YOUR OWN RISK', text: 'By purchasing any item, every buyer acknowledges and agrees that: (a) they have independently evaluated all risks; (b) using or accessing third-party game accounts may violate the relevant publisher\'s terms of service, end-user license agreements, or policies; (c) they accept full and sole responsibility for any consequences, including without limitation account suspension, termination, ban, or loss of in-game items, currency, or access; (d) they shall not involve FenixxUID in any dispute with any game publisher or platform; (e) nothing in these Terms shall be interpreted as FenixxUID advising, encouraging, or facilitating any violation of third-party terms or applicable law. YOU USE THE PLATFORM ENTIRELY AT YOUR OWN RISK.' },
+        { title: 'TRANSACTIONS & PAYMENTS', text: 'All payments are processed exclusively through the Platform\'s internal wallet system. FenixxUID acts solely as a payment processor. After transaction completion, the seller is responsible for delivering credentials as advertised. Following delivery, the buyer assumes complete accountability for the asset. We do not guarantee accuracy, quality, legality, or delivery of any listed item. We reserve the right to hold or investigate any transaction suspected of fraud, unauthorized use, or money laundering.' },
+        { title: 'NO REFUND POLICY', text: 'ALL SALES ARE FINAL AND NON-REFUNDABLE. Due to the intangible, digital nature of items, absolutely no refund, return, exchange, chargeback, or cancellation will be provided under any circumstances once credentials are delivered. The risk of third-party action (restrictions, suspensions, bans, loss of access) is fully disclosed and accepted by users before purchase.' },
+        { title: 'PROHIBITED CONDUCT', text: 'STRICTLY PROHIBITED:\n✖ Scamming, fraud, phishing, or using the Platform to deceive others\n✖ Selling stolen, hacked, or illegally obtained accounts or credentials\n✖ Impersonating any person, entity, game official, or Platform staff\n✖ Misleading buyers with false or deceptive listings\n✖ Attempting to chargeback, reverse, or dispute completed transactions\n✖ Using automated tools, bots, or scripts to access or scrape the Platform\n✖ DDoS attacks, spreading malware, or attempting to breach our security\n✖ Posting Platform content in official game channels or communities\n\n⚠ RESTRICTED ACTIVITIES:\n⚠ Harassment, threats, bullying, or defamatory behavior toward other users\n⚠ Spamming dashboards, support channels, or other users\n⚠ Creating multiple accounts to bypass limits, evade bans, or exploit systems\n⚠ Sharing inappropriate, discriminatory, sexually explicit, or violent content\n\nViolations will result in immediate suspension. Severe violations result in permanent ban and wallet forfeiture. We may refer illegal activity to law enforcement.' },
+        { title: 'THIRD-PARTY COMPLIANCE', text: 'Users acknowledge that items listed may be subject to third-party terms of service, policies, or rules. Users shall independently review and comply with all applicable third-party terms. FenixxUID makes no representation regarding compliance or permissibility of any listing with respect to any third-party\'s terms. Users agree they are solely responsible for their own compliance.' },
+        { title: 'INDEMNIFICATION', text: 'You agree to indemnify, defend, and hold harmless FenixxUID, its owners, operators, affiliates, agents, and service providers from any and all claims, damages, losses, and expenses (including legal fees) arising from: (a) your use of the Platform; (b) any item you list, sell, or purchase; (c) your breach of these Terms; (d) your violation of any law or third-party rights; (e) any claim by a game publisher relating to Platform transactions.' },
+        { title: 'LIMITATION OF LIABILITY', text: 'FenixxUID PROVIDES THE PLATFORM "AS IS" WITHOUT ANY WARRANTY, EXPRESS OR IMPLIED, INCLUDING MERCHANTABILITY, FITNESS FOR PURPOSE, OR NON-INFRINGEMENT. WE ARE NOT LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS, REVENUES, DATA, USE, OR GOODWILL ARISING FROM OR RELATING TO YOUR USE OF OR INABILITY TO USE THE PLATFORM. WE ASSUME NO RESPONSIBILITY FOR THE ACTIONS, CONTENT, CONDUCT, OR LISTINGS OF ANY USER. USE THE PLATFORM AT YOUR OWN RISK.' },
+        { title: 'COPYRIGHT & DMCA', text: 'FenixxUID respects intellectual property rights. If you believe any Content on the Platform infringes your copyright, trademark, or other intellectual property, please send a written notice to rarebytes@proton.me with: (a) description of the copyrighted work; (b) location of the infringing material; (c) your contact info; (d) statement under penalty of perjury that you are authorized to act on behalf of the rights holder. We will remove infringing content promptly. For all other legal notices, DMCA takedowns, law enforcement requests, or regulatory inquiries, contact the same address.' },
+        { title: 'DISPUTE RESOLUTION — BINDING ARBITRATION', text: 'Any dispute, controversy, or claim arising from these Terms or Platform use shall be resolved by binding arbitration. Arbitration is conducted in English by a single arbitrator. YOU WAIVE YOUR RIGHT TO TRIAL BY JURY AND YOUR RIGHT TO PARTICIPATE IN CLASS ACTION, CLASS-WIDE ARBITRATION, OR REPRESENTATIVE PROCEEDING. All claims must be in your individual capacity only.' },
+        { title: 'GOVERNING LAW & JURISDICTION', text: 'These Terms are governed by the laws of the Republic of India. The parties submit to the exclusive jurisdiction of courts in New Delhi, India, subject to the mandatory arbitration clause above. Users outside India agree that Indian law governs their Platform relationship.' },
+        { title: 'ENFORCEMENT & APPEALS', text: 'We take violations seriously. Depending on severity, we may issue warnings, temporarily suspend accounts, permanently ban users, seize wallet balances, or refer matters to law enforcement. If you believe your account was banned unfairly, you may appeal by emailing rarebytes@proton.me with details and supporting evidence. We review appeals fairly but retain final decision-making authority.' },
+        { title: 'CHANGES TO THESE TERMS', text: 'We may update these Terms from time to time. Changes are effective immediately upon posting. The last modified date will be updated. Continued use of the Platform after changes constitutes acceptance of the revised Terms. We encourage periodic review.' },
+        { title: 'CONTACT', text: 'For questions, concerns, support, or legal notices, email us at rarebytes@proton.me. We\'re here to help and want to ensure you have the best experience on the Platform.' }
+      ];
+
+      $('#tos-main').innerHTML = `
+    <div class="tos-header">
+      <ion-icon name="shield-checkmark"></ion-icon>
+      <h2>Service Terms</h2>
+      <p>Legal Disclosure</p>
+    </div>
+    <div class="tos-scroll">
+      ${sections.map((s, i) => `
+        <div class="tos-item">
+          <div class="tos-item-header">
+            <span class="tos-item-num">${String(i + 1).padStart(2, '0')}</span>
+            <h4 class="tos-item-title">${s.title}</h4>
+          </div>
+          <p class="tos-item-text">${s.text}</p>
+        </div>`).join('')}
+    </div>
+    <div class="tos-ack">
+      <ion-icon name="alert-circle"></ion-icon>
+      <div>
+        <div class="tos-ack-title">Final Acknowledgement</div>
+        <p class="tos-ack-text">By continuing to use this platform, you certify that you have read, understood, and accepted these terms in their entirety.</p>
+      </div>
+    </div>`;
+    }
+
+    function renderPrivacy() {
+      $('#privacy-main').innerHTML = `
+    <div class="privacy-scroll">
+      <h3 class="privacy-h3">1. Introduction</h3>
+      <p class="privacy-p">This Privacy Policy explains how FenixxUID ("we", "us", "our") collects, uses, and protects the personal information of users of our marketplace platform. By using the Platform, you consent to this Policy.</p>
+      <h3 class="privacy-h3">2. Information We Collect</h3>
+      <p class="privacy-p">We collect only what is necessary for Platform operation: your name, email address, mobile number, currency preference, transaction history, and wallet balance records. We also log your IP address for security, fraud prevention, and legal compliance purposes. We do not collect or store game account credentials, third-party login details, or payment card information — these are never processed through our servers.</p>
+      <h3 class="privacy-h3">3. How We Use Your Information</h3>
+      <p class="privacy-p">Your data is used exclusively to: operate your account, process wallet transactions, display your profile and listings, communicate Platform-related information and security alerts, prevent fraud, comply with legal obligations, and resolve disputes. We do not use your data for profiling, automated decision-making, or marketing unrelated to the Platform.</p>
+      <h3 class="privacy-h3">4. Legal Basis for Processing</h3>
+      <p class="privacy-p">We process your data on the following legal grounds: performance of our contract with you (providing access to the Platform), compliance with legal obligations, and our legitimate interests in preventing fraud and securing the Platform.</p>
+      <h3 class="privacy-h3">5. Data Retention</h3>
+      <p class="privacy-p">We retain your personal data for the duration your account is active plus a period of 3 years after account closure, or as required by applicable law. Transaction records are retained for 7 years for legal and tax compliance. After the retention period, your data is permanently deleted or anonymized.</p>
+      <h3 class="privacy-h3">6. Information Sharing</h3>
+      <p class="privacy-p">We do not sell, rent, or trade your personal information. We may share limited data with: (a) trusted service providers (hosting, database) bound by confidentiality; (b) law enforcement or regulatory authorities when legally required; (c) as necessary to enforce our Terms or protect rights and safety. Listing details you publish are visible to other Platform users.</p>
+      <h3 class="privacy-h3">7. International Data Transfers</h3>
+      <p class="privacy-p">Your data is stored on servers located in the United States (Railway) and processed through our database provider (Supabase). By using the Platform, you consent to the international transfer and processing of your data.</p>
+      <h3 class="privacy-h3">8. Children's Privacy</h3>
+      <p class="privacy-p">The Platform is strictly intended for users aged 18 and above. We do not knowingly collect or process personal data from individuals under 18. If we discover that a minor has registered, their account will be promptly terminated and all associated data deleted.</p>
+      <h3 class="privacy-h3">9. Data Security</h3>
+      <p class="privacy-p">We implement industry-standard security practices including encrypted data transmission (HTTPS), secure password hashing (bcrypt), access controls, and regular security reviews. However, no online system can guarantee absolute security.</p>
+      <h3 class="privacy-h3">10. Your Rights</h3>
+      <p class="privacy-p">Depending on your jurisdiction, you may have the right to: access your data, correct inaccuracies, request deletion, restrict processing, and data portability. You can manage basic profile data through your account settings. For deletion or other requests, contact us at rarebytes@proton.me. We respond within 30 days as required by law.</p>
+      <h3 class="privacy-h3">11. Cookies & Tracking</h3>
+      <p class="privacy-p">We use essential cookies and localStorage solely for Platform functionality: maintaining your login session, remembering currency preferences, and cart state. We do not use third-party analytics, advertising cookies, or tracking pixels.</p>
+      <h3 class="privacy-h3">12. Third-Party Links</h3>
+      <p class="privacy-p">The Platform may contain links to external websites or services (such as Telegram, WhatsApp, social media). We are not responsible for the content, privacy practices, or security of third-party sites.</p>
+      <h3 class="privacy-h3">13. Data Breach Notification</h3>
+      <p class="privacy-p">In the event of a confirmed data breach involving your personal information, we will notify you via the email address associated with your account and take immediate steps to mitigate the breach in compliance with applicable laws.</p>
+      <h3 class="privacy-h3">14. Changes to This Policy</h3>
+      <p class="privacy-p">We may update this Privacy Policy periodically. Changes are posted on this page with the last modified date. Continued use of the Platform after changes constitutes acceptance of the updated Policy.</p>
+      <h3 class="privacy-h3">15. Contact</h3>
+      <p class="privacy-p">For privacy inquiries, data requests, or to contact our Grievance Officer: rarebytes@proton.me. Please include "Privacy Request" in the subject line.</p>
+    </div>`;
+    }
+
+    (function init() {
+      if (location.hostname === 'rare-ids.up.railway.app') {
+        const url = new URL('https://RareIDs.pro' + location.pathname);
+        const token = state.token || localStorage.getItem('rareids_token');
+        if (token) url.searchParams.set('token', token);
+        location.replace(url);
+        return;
+      }
+
+      window.TURNSTILE_SITE_KEY = window.TURNSTILE_SITE_KEY || '0x4AAAAAADNLuv-NGRSMKpTu';
+      const tsScript = document.createElement('script');
+      tsScript.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+      tsScript.async = true;
+      tsScript.defer = true;
+      document.head.appendChild(tsScript);
+
+      const params = new URLSearchParams(window.location.search);
+      const tokenParam = params.get('token');
+      if (tokenParam) {
+        window.history.replaceState({}, document.title, window.location.pathname);
+        if (!state.token) {
+          state.token = tokenParam;
+          localStorage.setItem('rareids_token', tokenParam);
+        }
+      }
+
+      state._agreed = false;
+      state._cartAgreed = false;
+      state._turnstileToken = null;
+
+      if (state.token) {
+        bootstrap().then(() => {
+          showSection(state.token ? 'home' : 'landing');
+        }).catch(() => {
+          showSection('landing');
+        });
+      } else {
+        showSection('landing');
+      }
+    })();
+  </script>
+  <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    Tawk_API.onLoad = function(){ Tawk_API.hideWidget(); };
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/6a1582534442d91c3266d80e/1jpi0a6ce';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+  </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"9ab9ba83bba643b499971ca329071ec1","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+
+</html>

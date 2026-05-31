@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Test - RareIDs</title>
+  <style>
+    body { font-family: monospace; background: #070707; color: #fff; padding: 20px; }
+    pre { background: #111; padding: 15px; border-radius: 8px; overflow-x: auto; }
+    button { padding: 10px 15px; background: #0e8ef8; color: #fff; border: none; border-radius: 8px; cursor: pointer; margin: 10px 5px 10px 0; }
+    input { background: #111; color: #fff; border: 1px solid #333; padding: 8px 12px; border-radius: 6px; margin: 5px 0; width: 100%; }
+    .section { margin: 20px 0; padding: 15px; border: 1px solid #333; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>API Test</h1>
+  
+  <div class="section">
+    <h2>Test Endpoint</h2>
+    <button onclick="testEndpoint()">Test /api/auth/test</button>
+    <pre id="test-result">Waiting...</pre>
+  </div>
+
+  <div class="section">
+    <h2>Login Test</h2>
+    <input type="email" id="email" placeholder="Email" value="admin@rareids.com" />
+    <input type="password" id="password" placeholder="Password" value="mauskin soyatzy77" />
+    <button onclick="testLogin()">Test Login</button>
+    <pre id="login-result">Waiting...</pre>
+  </div>
+
+  <script src="config.js"></script>
+  <script>
+    // Gunakan BACKEND_URL dari config.js (ubah di config.js saja)
+    const API = BACKEND_URL;
+    
+    async function testEndpoint() {
+      try {
+        document.getElementById('test-result').textContent = 'Testing...'
+        const res = await fetch(API + '/auth/test', { method: 'POST' })
+        const data = await res.json()
+        document.getElementById('test-result').textContent = JSON.stringify(data, null, 2)
+      } catch (e) {
+        document.getElementById('test-result').textContent = 'ERROR: ' + e.message
+      }
+    }
+
+    async function testLogin() {
+      try {
+        document.getElementById('login-result').textContent = 'Testing...'
+        const email = document.getElementById('email').value
+        const password = document.getElementById('password').value
+        const res = await fetch(API + '/auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'login',
+            email,
+            password,
+            captcha_token: 'test'
+          })
+        })
+        const data = await res.json()
+        document.getElementById('login-result').textContent = JSON.stringify(data, null, 2)
+      } catch (e) {
+        document.getElementById('login-result').textContent = 'ERROR: ' + e.message
+      }
+    }
+  </script>
+</body>
+</html>
