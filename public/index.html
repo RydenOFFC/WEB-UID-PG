@@ -1672,6 +1672,74 @@
       font-size: 12px;
       font-weight: 700;
     }
+    /* Topup styling */
+    .topup-amount-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 12px 0;
+    }
+    .topup-amount-btn {
+      padding: 14px 10px;
+      border-radius: 12px;
+      border: 2px solid var(--surface3);
+      background: var(--surface2);
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.18s;
+      color: var(--text);
+    }
+    .topup-amount-btn:hover {
+      border-color: #fff;
+      background: var(--surface3);
+    }
+    .topup-amount-btn.selected {
+      border-color: #fff;
+      background: #fff;
+      color: #000;
+    }
+    .topup-breakdown-box {
+      background: var(--surface2);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin: 10px 0;
+      border: 1px solid var(--surface3);
+    }
+    .topup-breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      font-size: 0.92rem;
+      color: var(--text2);
+    }
+    .topup-total-row {
+      border-top: 1px solid var(--surface3);
+      margin-top: 8px;
+      padding-top: 8px;
+      font-size: 1rem;
+      color: var(--text);
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+    }
+    .topup-loader {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-top: 2px solid #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      display: inline-block;
+      margin-right: 8px;
+    }
+    .topup-proceed-btn-text {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
     .menu-currency-card {
       background: #0a0a0a;
       border-radius: 20px;
@@ -2517,6 +2585,22 @@
     </header>
     <div class="main" id="privacy-main"></div>
   </div>
+  <div class="section" id="sec-payment-success">
+    <header class="header">
+      <div class="header-l"><span class="header-title">Payment Confirmation</span></div>
+    </header>
+    <div class="main has-nav" style="padding: 24px 18px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+      <div style="margin-bottom: 20px;">
+        <ion-icon name="checkmark-circle" style="font-size: 64px; color: #fff;"></ion-icon>
+      </div>
+      <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 8px;">Pembayaran Berjaya!</h2>
+      <p style="font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 24px; line-height: 1.5;">
+        Terima kasih atas pembayaran Anda. Topup akan dikreditkan ke wallet Anda dalam beberapa saat.
+      </p>
+      <button class="btn btn-primary btn-block" onclick="navTo('wallet')" style="margin-bottom: 8px;">Kembali ke Wallet</button>
+      <button class="btn btn-secondary btn-block" onclick="navTo('home')">Terus Berbelanja</button>
+    </div>
+  </div>
 
   <div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
     <div class="modal" id="modal-content" onclick="event.stopPropagation()"></div>
@@ -2580,10 +2664,10 @@
       priceRange: [0, 0],
       priceAbs: { min: 0, max: 0 },
       priceInit: false,
-      currency: localStorage.getItem('rareids_currency') || 'USD',
-      rate: Number(localStorage.getItem('rareids_rate')) || 1,
-      symbol: currencySymbols[localStorage.getItem('rareids_currency') || 'USD'] || '$',
-      landingCurrency: localStorage.getItem('rareids_landing_currency') || null
+      currency: 'MYR',
+      rate: 1,
+      symbol: 'RM',
+      landingCurrency: null
     };
 
     function escAttr(str) {
@@ -2591,8 +2675,7 @@
     }
 
     function disp(price) {
-      const dec = state.currency === 'IDR' ? 0 : 2;
-      return (state.symbol || '$') + (Number(price) || 0).toFixed(dec);
+      return 'RM' + (Number(price) || 0).toFixed(2);
     }
 
     function toast(msg, type) {
@@ -2662,6 +2745,7 @@
         case 'support': renderSupport(); break;
         case 'tos': renderTOS(); break;
         case 'privacy': renderPrivacy(); break;
+        case 'payment-success': break;
       }
     }
 
@@ -2722,9 +2806,6 @@
           state.wallet = d.wallet || null;
           state.counts = d.counts || { cart_count: 0, notification_count: 0 };
           state.notifications = d.notifications || [];
-          state.currency = d.currency || null;
-          state.rate = d.rate || 1;
-          state.symbol = currencySymbols[state.currency] || (state.currency ? '$' : '');
         }
         const res = await apiCall('GET', '/bootstrap');
         if (res && res.success) {
@@ -2732,46 +2813,18 @@
           state.wallet = res.data.wallet || null;
           state.counts = res.data.counts || { cart_count: 0, notification_count: 0 };
           state.notifications = res.data.notifications || [];
-          state.currency = res.data.currency || null;
-          state.rate = res.data.rate || 1;
-          state.symbol = currencySymbols[state.currency] || (state.currency ? '$' : '');
-          localStorage.setItem('rareids_currency', state.currency || '');
-          localStorage.setItem('rareids_rate', String(state.rate));
           localStorage.setItem('rareids_bootstrap_cache', JSON.stringify(res.data));
-        }
-        if (!state.currency) {
-          await promptCurrency();
         }
       } catch (e) {
         console.error(e);
         localStorage.removeItem('rareids_bootstrap_cache');
-        state.currency = state.currency || 'USD';
-        state.rate = state.rate || 1;
-        state.symbol = currencySymbols[state.currency] || '$';
       }
       updateHeader();
     }
 
-    async function promptCurrency() {
-      return new Promise(resolve => {
-        const ov = document.createElement('div');
-        ov.style.cssText = 'position:fixed;inset:0;z-index:9999;background:#000;display:flex;align-items:center;justify-content:center;padding:24px';
-        ov.innerHTML = `<div style="background:#111;border-radius:12px;padding:28px;max-width:360px;width:100%;text-align:center"><ion-icon name="cash-outline" style="font-size:36px;color:#fff;opacity:.5;margin-bottom:12px"></ion-icon><h3 style="font-size:18px;font-weight:700;margin-bottom:6px">Select Your Currency</h3><p style="font-size:13px;color:rgba(255,255,255,.5);margin-bottom:20px">Choose your preferred currency to continue</p><select id="prompt-curr" style="background:#1a1a1a;border:none;border-radius:10px;padding:12px 14px;width:100%;color:#fff;font:inherit;font-size:14px;margin-bottom:16px;outline:none">${currencyList.map(c => '<option value="' + c + '"' + (c === 'USD' ? ' selected' : '') + '>' + c + ' (' + (currencySymbols[c] || '') + ')</option>').join('')}</select><button id="prompt-curr-btn" class="btn btn-fill btn-block" style="padding:12px;border-radius:10px;background:#fff;color:#000;font-weight:600;border:none;cursor:pointer;font-size:14px">Continue</button></div>`;
-        document.body.appendChild(ov);
-        $('#prompt-curr-btn').onclick = () => {
-          const c = $('#prompt-curr').value;
-          state.currency = c;
-          state.symbol = currencySymbols[c] || '$';
-          localStorage.setItem('rareids_currency', c);
-          ov.remove();
-          resolve();
-        };
-      });
-    }
-
     function updateHeader() {
       const bal = $('#hdr-bal');
-      if (bal) bal.textContent = disp(state.wallet ? (state.wallet.balance_converted || 0) : 0);
+      if (bal) bal.textContent = disp(state.wallet ? (state.wallet.balance || 0) : 0);
       const dot = $('#notif-dot');
       if (dot) {
         const ls = parseInt(localStorage.getItem('rareids_notif_seen') || '0');
@@ -2788,45 +2841,11 @@
       });
     }
 
-    window.changeCurrency = async function (c) {
-      state.currency = c;
-      state.symbol = currencySymbols[c] || '$';
-      localStorage.setItem('rareids_currency', c);
-      await fetchListings();
-      if (state.token) {
-        await apiCall('POST', '/auth', { action: 'update_profile', currency: c }).catch(() => {});
-        await bootstrap();
-        state.currency = c;
-        state.symbol = currencySymbols[c] || '$';
-        localStorage.setItem('rareids_currency', c);
-        const cache = localStorage.getItem('rareids_bootstrap_cache');
-        if (cache) {
-          const d = JSON.parse(cache);
-          d.currency = c;
-          localStorage.setItem('rareids_bootstrap_cache', JSON.stringify(d));
-        }
-        updateHeader();
-      }
-      renderSection(state.activeSection);
-    };
-
     async function fetchListings() {
       try {
-        let url = '/listings';
-        const curr = state.currency || 'USD';
-        url += '?currency=' + curr;
-        const res = await apiCall('GET', url);
+        const res = await apiCall('GET', '/listings');
         if (res && res.success) {
           state.listings = res.data.items;
-          if (res.data.currency) {
-            state.currency = res.data.currency;
-            state.symbol = currencySymbols[res.data.currency] || '$';
-            localStorage.setItem('rareids_currency', res.data.currency);
-            if (res.data.rate) {
-              state.rate = res.data.rate;
-              localStorage.setItem('rareids_rate', String(res.data.rate));
-            }
-          }
           const avail = state.listings.filter(l => l.status === 'available' || !l.status);
           if (avail.length > 0) {
             const prices = avail.map(l => Number(l.price)).filter(p => !isNaN(p));
@@ -3542,14 +3561,30 @@
         <div class="wallet-bg-icon"><ion-icon name="wallet-outline"></ion-icon></div>
         <div class="wallet-card-inner">
           <span class="wallet-label">Available Balance</span>
-          <div class="wallet-balance">${disp(w.balance_converted)}</div>
+          <div class="wallet-balance">${disp(w.balance)}</div>
         </div>
       </div>
 
       <div class="wallet-section">
-        <div class="wallet-section-header"><ion-icon name="refresh-circle-outline"></ion-icon><span>Add Balance</span></div>
-        <p class="wallet-desc">Contact support to top up your wallet. We support all major payment methods.</p>
-        <button class="btn btn-primary btn-block" onclick="navTo('support')"><ion-icon name="chatbubble-ellipses-outline"></ion-icon> Contact Support</button>
+        <div class="wallet-section-header"><ion-icon name="card-outline"></ion-icon><span>Top Up Balance</span></div>
+        <p class="wallet-desc">Pilih jumlah topup. Minimum RM5. Fee 2% dikenakan untuk pemprosesan pembayaran.</p>
+        <div id="topup-options-loader"><div class="loader"></div></div>
+        <div id="topup-amount-grid" style="display: none;"></div>
+        <div id="topup-breakdown" class="topup-breakdown-box" style="display: none;">
+          <div class="topup-breakdown-row">
+            <span>Jumlah Topup</span>
+            <span id="bd-amount">-</span>
+          </div>
+          <div class="topup-breakdown-row">
+            <span>Fee Pemprosesan (2%)</span>
+            <span id="bd-fee">-</span>
+          </div>
+          <div class="topup-total-row">
+            <span>Total Dicaj</span>
+            <span id="bd-total">-</span>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-block" id="topup-proceed-btn" style="display: none;" onclick="doTopup()"><ion-icon name="card-outline"></ion-icon> Proceed to Payment</button>
       </div>
 
       <div class="wallet-section">
@@ -3565,6 +3600,77 @@
         <div id="wallet-tx-list"></div>
       </div>
     </div>`;
+
+      // ── TOPUP LOGIC ──────────────────────────────────────────
+      let selectedTopup = null;
+
+      (async function loadTopupOptions() {
+        const loader = document.getElementById('topup-options-loader');
+        const grid = document.getElementById('topup-amount-grid');
+        try {
+          const r = await apiCall('GET', '/topup/options');
+          loader.style.display = 'none';
+          if (!r || !r.success) {
+            grid.innerHTML = '<p style="text-align:center;color:var(--text2);font-size:12px;">Gagal load pilihan topup.</p>';
+            grid.style.display = 'block';
+            return;
+          }
+          const options = r.data || [];
+          grid.className = 'topup-amount-grid';
+          grid.innerHTML = options.map((opt, i) => `
+            <button class="topup-amount-btn" id="topup-opt-${i}" onclick="selectTopup(${i})">
+              ${opt.label}
+            </button>
+          `).join('');
+          grid.style.display = 'grid';
+          window._topupOptions = options;
+        } catch (e) {
+          console.error('Load topup options failed', e);
+          loader.style.display = 'none';
+          grid.innerHTML = '<p style="text-align:center;color:var(--text2);font-size:12px;">Gagal load pilihan topup.</p>';
+          grid.style.display = 'block';
+        }
+      })();
+
+      window.selectTopup = function(index) {
+        const options = window._topupOptions || [];
+        selectedTopup = options[index] || null;
+        if (!selectedTopup) return;
+
+        options.forEach((_, i) => {
+          const btn = document.getElementById('topup-opt-' + i);
+          if (btn) btn.classList.toggle('selected', i === index);
+        });
+
+        document.getElementById('bd-amount').textContent = selectedTopup.label;
+        document.getElementById('bd-fee').textContent = selectedTopup.fee_label;
+        document.getElementById('bd-total').textContent = selectedTopup.total_label;
+        document.getElementById('topup-breakdown').style.display = 'block';
+        document.getElementById('topup-proceed-btn').style.display = 'block';
+      };
+
+      window.doTopup = async function() {
+        if (!selectedTopup) return toast('Pilih jumlah topup dulu', 'error');
+        const btn = document.getElementById('topup-proceed-btn');
+        btn.disabled = true;
+        btn.innerHTML = '<div class="topup-loader"></div> Processing...';
+        try {
+          const r = await apiCall('POST', '/topup', { amount_myr: selectedTopup.amount_myr });
+          if (r && r.success && r.redirectUrl) {
+            window.location.href = r.redirectUrl;
+          } else {
+            toast((r && r.error) || 'Gagal membuat topup', 'error');
+            btn.disabled = false;
+            btn.innerHTML = '<ion-icon name="card-outline"></ion-icon> Proceed to Payment';
+          }
+        } catch (e) {
+          console.error('Topup request failed', e);
+          toast('Ralat berlaku. Cuba lagi.', 'error');
+          btn.disabled = false;
+          btn.innerHTML = '<ion-icon name="card-outline"></ion-icon> Proceed to Payment';
+        }
+      };
+      // ── END TOPUP LOGIC ──────────────────────────────────────
 
       window.redeemCoupon = async function () {
         const code = $('#wallet-coupon').value.trim();
@@ -3626,19 +3732,7 @@
         { icon: 'shield-checkmark-outline', label: 'Privacy Policy', action: () => navTo('privacy') },
         { icon: 'help-circle-outline', label: 'Support', action: () => navTo('support') },
       ];
-      $('#menu-main').innerHTML = `
-    <div class="menu-currency-card">
-      <div class="menu-currency-l">
-        <ion-icon name="cash-outline"></ion-icon>
-        <span>Currency</span>
-      </div>
-      <div class="menu-currency-r">
-        <select onchange="changeCurrency(this.value)" class="menu-currency-select">
-          ${currencyList.map(c => '<option value="' + c + '"' + (c === state.currency ? ' selected' : '') + '>' + c + ' (' + (currencySymbols[c] || '') + ')</option>').join('')}
-        </select>
-        <ion-icon name="chevron-down" class="menu-currency-chevron"></ion-icon>
-      </div>
-    </div>` + items.map(i => `
+      $('#menu-main').innerHTML = `${items.map(i => `
     <div class="menu-item" onclick="(${i.action.toString()})()">
       <div class="menu-l">
         <div class="menu-icon"><ion-icon name="${i.icon}"></ion-icon></div>
@@ -3668,19 +3762,6 @@
           <div class="form-group"><label>Mobile</label><input type="tel" id="prof-mobile" value="${p.mobile_number || ''}"></div>
           <button type="submit" class="btn btn-secondary btn-block">Save Profile</button>
         </form>
-      </div>
-
-      <div class="profile-currency-card">
-        <div class="profile-currency-l">
-          <ion-icon name="cash-outline"></ion-icon>
-          <span>Currency</span>
-        </div>
-        <div class="profile-currency-r">
-          <select id="prof-currency" onchange="changeCurrency(this.value)" class="profile-currency-select">
-            ${currencyList.map(c => '<option value="' + c + '"' + (c === state.currency ? ' selected' : '') + '>' + c + ' (' + (currencySymbols[c] || '') + ')</option>').join('')}
-          </select>
-          <ion-icon name="chevron-down" class="profile-currency-chevron"></ion-icon>
-        </div>
       </div>
 
       <div class="card profile-card">
@@ -3969,13 +4050,22 @@
         }
       }
 
+      const sessionId = params.get('session_id');
+      if (sessionId) {
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+
       state._agreed = false;
       state._cartAgreed = false;
       state._turnstileToken = null;
 
       if (state.token) {
         bootstrap().then(() => {
-          showSection(state.token ? 'home' : 'landing');
+          if (sessionId) {
+            showSection('payment-success');
+          } else {
+            showSection(state.token ? 'home' : 'landing');
+          }
         }).catch(() => {
           showSection('landing');
         });
